@@ -29,15 +29,15 @@ socketio.on('connection', function(client) {
 
 setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
-}, 1000);
+}, 100);
 
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
   if (msg.id === 660 || msg.id === 1632) {
     canbusData.rpm = msg.data.readUIntBE(0, 2);
     canbusData.speed = msg.data.readUIntBE(2, 2);
-    canbusData.gear = msg.data.readUIntBE(4, 1);
-    canbusData.voltage = msg.data.readUIntBE(5, 1);
+    // canbusData.gear = msg.data.readUIntBE(4, 1);
+    // canbusData.voltage = msg.data.readUIntBE(5, 1);
   }
   
   // Temperates - IAT, ECT

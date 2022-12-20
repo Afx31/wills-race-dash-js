@@ -2,27 +2,66 @@
 
 <html lang="en">
   <head>
-    <meta charset=""utf-8">
+    <meta charset="utf-8">
     <title>CAN Bus Dash Display</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
+    <link rel="stylesheet" href="index.css">
     <script src="/socket.io/socket.io.js"></script>
   </head>
+  <style>
+    @font-face {
+    font-family: myFirstFont;
+    src: url(sansation_bold.woff);
+    font-weight: bold;
+    }
+
+    * {
+        font-family: myFirstFont;
+    }
+  </style>
   <body>
     <script src="/index.js"></script>
-    <h1>CAN Bus Dash Display</h1>h1>    
-    <div style="padding: 10px">
-      <h1>RPM: </h1><h1 id="rpm"></h1>
-      <h1>Speed: </h1><h1 id="speed"></h1>
-      <h1>Gear: </h1><h1 id="gear"></h1>
-      <h1>Voltage: </h1><h1 id="voltage"></h1>
-      <h1>IAT: </h1><h1 id="iat"></h1>
-      <h1>ECT: </h1><h1 id="ect"></h1>
-      <h1>TPS: </h1><h1 id="rpm"></h1>
-      <h1>MAP: </h1><h1 id="map"></h1>
-      <h1>Injector: </h1><h1 id="inj"></h1>
-      <h1>Ignition: </h1><h1 id="ign"></h1>
-      <h1>Lambda Equiv Ratio: </h1><h1 id="equivRatio"></h1>
-      <h1>Lambda: </h1><h1 id="lambda"></h1>
+    <div class="container">
+      <div class="top-panel">
+        <div class="rpmBarContainer">
+          <div id="rpmbar" class="rpm-bar"></div>
+        </div>
+      </div>
+      <div class="left-panel">
+        <div class="info-panel">
+          <p>Coolant: </p><p id="ect"></p>
+        </div>
+        <div class="info-panel">
+          <p>IAT: </p><p id="iat"></p>
+        </div>
+        <div class="info-panel">
+          <p>MAP: </p><p id="map"></p>
+        </div>
+        <div class="info-panel">
+          <p>Gearbox Temp: </p><p id="gearboxTemp"></p>
+        </div>        
+      </div>
+      <div class="middle-panel">
+        <div class="info-panel">
+          <p>RPM: </p><p id="rpmNum"></p>
+        </div>
+        <div class="info-panel">
+          <p>Speed: </p><p id="speed"></p>
+        </div>
+      </div>
+      <div class="right-panel">
+        <div class="info-panel">
+          <p>Oil Temp: </p><p id="oilTemp"></p>
+        </div>
+        <div class="info-panel">
+          <p>Oil Pressure: </p><p id="oilPressure"></p>
+        </div>
+        <div class="info-panel">
+          <p>TPS: </p><p id="tps"></p>
+        </div>
+        <div class="info-panel">
+          <p>Voltage: </p><p id="voltage"></p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
