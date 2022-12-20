@@ -1,5 +1,5 @@
 var socket = io.connect('localhost:3000');
-
+// test commit
 socket.on('CANBusMessage', (data) => {
   console.log('Data: ' + data);
 
