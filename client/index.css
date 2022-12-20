@@ -1,0 +1,53 @@
+body {
+    background-color: #111A22;
+    color: white;
+}
+
+.top-panel { grid-area: top }
+.left-panel { grid-area: left }
+.middle-panel { grid-area: middle }
+.right-panel { grid-area: right }
+
+.container {
+    display: grid;
+    grid-template-areas:
+    'top top top top top top'
+    'left left middle middle right right';
+    text-align: center;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 60px;
+}
+
+.top-panel {
+}
+
+.rpmBarContainer {
+    color:#000!important;
+    background-color:#f1f1f1!important;
+}
+.rpm-bar {
+    color:#fff!important;
+    background-color:#4CAF50!important;
+    height: 150px;
+    width: 0;
+}
+
+.left-panel {
+    border: solid 1px white;
+}
+
+.left-panel {
+    border: solid 1px white;
+}
+
+.right-panel {
+    border: solid 1px white;
+}
+
+.info-panel {
+    display: flex;
+    justify-content: flex-start;
+}
