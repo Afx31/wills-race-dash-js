@@ -17,7 +17,7 @@ var canbusData = {
   map: 0,
   inj: 0,
   ign: 0,
-  equivRatio: 0,
+  lambdaRatio: 0,
   lambda: 0
 }
 
@@ -36,8 +36,8 @@ channel.addListener('onMessage', function(msg) {
   if (msg.id === 660 || msg.id === 1632) {
     canbusData.rpm = msg.data.readUIntBE(0, 2);
     canbusData.speed = msg.data.readUIntBE(2, 2);
-    // canbusData.gear = msg.data.readUIntBE(4, 1);
-    // canbusData.voltage = msg.data.readUIntBE(5, 1);
+    canbusData.gear = msg.data.readUIntBE(4, 1);
+    canbusData.voltage = msg.data.readUIntBE(5, 1);
   }
   
   // Temperates - IAT, ECT
@@ -52,13 +52,13 @@ channel.addListener('onMessage', function(msg) {
     canbusData.map = msg.data.readUIntBE(2, 2);
   }
 
-  //Injector duration, Ignition advance
+  // Injector duration, Ignition advance
   if (msg.id === 663 || msg.id === 1635) {
     canbusData.inj = msg.data.readUIntBE(0, 2);
     canbusData.ign = msg.data.readUIntBE(2, 2);
   }
 
-  //Lambda
+  // Lambda Ratio, Lambda
   if (msg.id === 664 || msg.id === 1636) {
     canbusData.equivRatio = msg.data.readUIntBE(0, 2);
     canbusData.lambda = msg.data.readUIntBE(2, 2);
