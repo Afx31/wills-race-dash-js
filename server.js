@@ -60,7 +60,7 @@ channel.addListener('onMessage', function(msg) {
 
   // Lambda Ratio, Lambda
   if (msg.id === 664 || msg.id === 1636) {
-    canbusData.equivRatio = msg.data.readUIntBE(0, 2);
+    canbusData.lambdaRatio = msg.data.readUIntBE(0, 2);
     canbusData.lambda = msg.data.readUIntBE(2, 2);
   }
 

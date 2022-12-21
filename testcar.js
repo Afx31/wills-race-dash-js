@@ -17,7 +17,7 @@ var msg663 = {
   'id': 663,
   data: [0, 0, 0, 0]
 }
-var msg664 = {
+var msg664 = lambdaRatio = {
   'id': 664,
   data: [0, 0, 0, 0]
 }
@@ -36,11 +36,11 @@ var lambdaRatio = 10;
 var lambda = 12;
 
 setInterval(() => {
-  var msg660 = {};
-  var msg661 = {};
-  var msg662 = {};
-  var msg663 = {};
-  var msg664 = {};
+  var msgOut660 = {};
+  var msgOut661 = {};
+  var msgOut662 = {};
+  var msgOut663 = {};
+  var msgOut664 = {};
   var buff660 = Buffer.alloc(6);
   var buff661 = Buffer.alloc(4);
   var buff662 = Buffer.alloc(4);
@@ -87,27 +87,27 @@ setInterval(() => {
   console.log('buff664: ', buff664);
 
   // Assign Buffer to Msg
-  msg660.id = msg660.id;
-  msg660.data = buff660;
+  msgOut660.id = msg660.id;
+  msgOut660.data = buff660;
 
-  msg661.id = msg661.id;
-  msg661.data = buff661;
+  msgOut661.id = msg661.id;
+  msgOut661.data = buff661;
 
-  msg662.id = msg662.id;
-  msg662.data = buff660;
+  msgOut662.id = msg662.id;
+  msgOut662.data = buff662;
 
-  msg663.id = msg663.id;
-  msg663.data = buff661;
+  msgOut663.id = msg663.id;
+  msgOut663.data = buff663;
 
-  msg664.id = msg664.id;
-  msg664.data = buff661;
+  msgOut664.id = msg664.id;
+  msgOut664.data = buff664;
 
   // Send Msg on channel to server
-  channel.send(msg660);
-  channel.send(msg661);
-  channel.send(msg662);
-  channel.send(msg663);
-  channel.send(msg664);
+  channel.send(msgOut660);
+  channel.send(msgOut661);
+  channel.send(msgOut662);
+  channel.send(msgOut663);
+  channel.send(msgOut664);
 }, 100);
 
 channel.start();
