@@ -6,7 +6,7 @@ socket.on('CANBusMessage', (data) => {
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum')
   var speed = document.getElementById('speed');
-  var gear = document.getElementById('gear');
+  // var gear = document.getElementById('gear');
   var voltage = document.getElementById('voltage');
   var iat = document.getElementById('iat');
   var ect = document.getElementById('ect');
@@ -16,11 +16,11 @@ socket.on('CANBusMessage', (data) => {
   var ign = document.getElementById('ign');
   var lambdaRatio = document.getElementById('lambdaRatio');
   var lambda = document.getElementById('lambda');
-  
+
   rpmBar.style.width = data.rpm + "%";
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
-  gear.textContent = data.gear;
+  // gear.textContent = data.gear;
   voltage.textContent = data.voltage;
   iat.textContent = data.iat;
   ect.textContent = data.ect;
