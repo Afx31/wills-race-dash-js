@@ -13,12 +13,25 @@ body {
     grid-template-areas:
     'top top top top top top'
     'left left middle middle right right';
-    text-align: center;
 }
 
 p {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 60px;
+}
+
+.data-title {
+    font-size: 40px;
+    margin: 0;
+}
+
+.data-reading {
+    font-size: 110px;
+    margin: 0;
+}
+
+.data-reading-gear {
+    font-size: 290px;
+    margin: 0;
 }
 
 .top-panel {
@@ -26,28 +39,39 @@ p {
 
 .rpmBarContainer {
     color:#000!important;
-    background-color:#f1f1f1!important;
+    /* background-color:#f1f1f1!important; */
+    border-bottom: .5px solid yellow;
 }
 .rpm-bar {
     color:#fff!important;
     background-color:#4CAF50!important;
-    height: 150px;
+    height: 100px;
     width: 0;
 }
 
 .left-panel {
-    border: solid 1px white;
+    /* border: solid 1px white; */
 }
 
-.left-panel {
-    border: solid 1px white;
+.middle-panel {
+    /* border: solid 1px white; */
 }
 
-.right-panel {
-    border: solid 1px white;
+.right-panel {    
+    /* border: solid 1px white; */
 }
 
-.info-panel {
-    display: flex;
-    justify-content: flex-start;
+.info-panel-left {
+    text-align: left;
+    padding: 10px 20px 0 20px;
+}
+
+.info-panel-middle {
+    text-align: center;
+    padding: 10px 20px 0 20px;
+}
+
+.info-panel-right {
+    text-align: right;
+    padding: 10px 20px 0 20px;
 }
