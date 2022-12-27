@@ -1,8 +1,6 @@
 var socket = io.connect('localhost:3000');
 
 socket.on('CANBusMessage', (data) => {
-  // console.log('Data: ' + data);
-
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
@@ -12,12 +10,18 @@ socket.on('CANBusMessage', (data) => {
   var ect = document.getElementById('ect');
   var tps = document.getElementById('tps');
   var map = document.getElementById('map');
-  var inj = document.getElementById('inj');
-  var ign = document.getElementById('ign');
-  var lambdaRatio = document.getElementById('lambdaRatio');
-  var lambda = document.getElementById('lambda');
+  // var inj = document.getElementById('inj');
+  // var ign = document.getElementById('ign');
+  // var lambdaRatio = document.getElementById('lambdaRatio');
+  // var lambda = document.getElementById('lambda');
+  
+  rpmBar.style.setProperty('max-width', '1582px', 'important');
 
-  rpmBar.style.width = data.rpm + "%";
+  var rpmbarPercentage = 0; // = (currentRpm / redlineRpm) * 100
+  var tempPercentValue = data.rpm / 8300;
+  rpmbarPercentage = tempPercentValue * 100;
+
+  rpmBar.style.width = rpmbarPercentage + "%";
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
   gear.textContent = data.gear;
@@ -31,19 +35,15 @@ socket.on('CANBusMessage', (data) => {
   // lambdaRatio.textContent = data.lambdaRatio;
   // lambda.textContent = data.lambda;
 
-
-  var rpmBar2 = document.getElementById('rpmbar');
-  console.log(typeof rpmBar2.style.width)
-
-  var percentString = rpmBar2.style.width;
+  // RPM Bar colouring
+  var percentString = rpmBar.style.width;
   percentString = percentString.split('%')
   var percentInt = parseInt(percentString)
 
   if (percentInt > 85)
-    rpmBar2.style.setProperty('background-color', 'red', 'important');
+    rpmBar.style.setProperty('background-color', 'red', 'important');
   else if (percentInt > 75)
-    rpmBar2.style.setProperty('background-color', 'yellow', 'important');
+    rpmBar.style.setProperty('background-color', 'yellow', 'important');
   else
-    rpmBar2.style.setProperty('background-color', 'green', 'important');
-
+    rpmBar.style.setProperty('background-color', 'green', 'important');
 });

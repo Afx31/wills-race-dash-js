@@ -4,7 +4,7 @@ var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
 
-var channel = can.createRawChannel('can0', true);
+var channel = can.createRawChannel('vcan0', true);
 
 var canbusData = {
   rpm: 0,
