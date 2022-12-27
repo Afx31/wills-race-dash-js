@@ -1,6 +1,7 @@
 body {
     background-color: #111A22;
     color: white;
+    overflow: hidden;
 }
 
 .top-panel { grid-area: top }

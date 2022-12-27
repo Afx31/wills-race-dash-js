@@ -47,11 +47,11 @@ setInterval(() => {
   var buff663 = Buffer.alloc(4);
   var buff664 = Buffer.alloc(4);
 
-  rpm += 1;
+  rpm += 100;
   speed += 10;
   gear += 1;
 
-  if (rpm == 100) {
+  if (rpm == 8400) {
     rpm = 0;
   }
 
