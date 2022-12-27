@@ -108,6 +108,6 @@ setInterval(() => {
   channel.send(msgOut662);
   channel.send(msgOut663);
   channel.send(msgOut664);
-}, 100);
+}, 50);
 
 channel.start();
