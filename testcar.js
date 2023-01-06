@@ -32,8 +32,8 @@ var tps = 25;
 var map = 40;
 var inj = 4;
 var ign = 5;
-var lambdaRatio = 10;
-var lambda = 12;
+var lambdaRatio = 46686;
+var lambda = 22999;
 
 setInterval(() => {
   var msgOut660 = {};
@@ -51,17 +51,14 @@ setInterval(() => {
   speed += 10;
   gear += 1;
 
-  if (rpm == 8400) {
+  if (rpm == 8400)
     rpm = 0;
-  }
 
-  if (speed == 400) {
+  if (speed == 400)
     speed = 0;
-  }
 
-  if (gear == 7) {
+  if (gear == 7)
     gear = 1;
-  }
  
   // Write to Buffer
   buff660.writeUIntBE(rpm, 0, 2);
@@ -108,6 +105,6 @@ setInterval(() => {
   channel.send(msgOut662);
   channel.send(msgOut663);
   channel.send(msgOut664);
-}, 50);
+}, 100);
 
 channel.start();

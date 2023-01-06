@@ -10,14 +10,14 @@ socket.on('CANBusMessage', (data) => {
   var ect = document.getElementById('ect');
   var tps = document.getElementById('tps');
   var map = document.getElementById('map');
+  var lambdaRatio = document.getElementById('lambdaRatio');
   // var inj = document.getElementById('inj');
   // var ign = document.getElementById('ign');
-  // var lambdaRatio = document.getElementById('lambdaRatio');
-  // var lambda = document.getElementById('lambda');
   
   rpmBar.style.setProperty('max-width', '1582px', 'important');
 
-  var rpmbarPercentage = 0; // = (currentRpm / redlineRpm) * 100
+  // = (currentRpm / redlineRpm) * 100
+  var rpmbarPercentage = 0;
   var tempPercentValue = data.rpm / 8300;
   rpmbarPercentage = tempPercentValue * 100;
 
@@ -25,24 +25,23 @@ socket.on('CANBusMessage', (data) => {
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
   gear.textContent = data.gear;
-  voltage.textContent = data.voltage;
+  voltage.textContent = (data.voltage / 10).toFixed(1);
   iat.textContent = data.iat;
   ect.textContent = data.ect;
   tps.textContent = data.tps;
-  map.textContent = data.map;
+  map.textContent = (data.map / 10) / 2;
+  lambdaRatio.textContent = (32768 / data.lambdaRatio).toFixed(2);
   // inj.textContent = data.inj;
   // ign.textContent = data.ign;
-  // lambdaRatio.textContent = data.lambdaRatio;
-  // lambda.textContent = data.lambda;
 
   // RPM Bar colouring
   var percentString = rpmBar.style.width;
   percentString = percentString.split('%')
   var percentInt = parseInt(percentString)
 
-  if (percentInt > 85)
+  if (percentInt > 90)
     rpmBar.style.setProperty('background-color', 'red', 'important');
-  else if (percentInt > 75)
+  else if (percentInt > 65)
     rpmBar.style.setProperty('background-color', 'yellow', 'important');
   else
     rpmBar.style.setProperty('background-color', 'green', 'important');

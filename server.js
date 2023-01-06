@@ -29,7 +29,7 @@ socketio.on('connection', function(client) {
 
 setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
-}, 50);
+}, 100);
 
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
