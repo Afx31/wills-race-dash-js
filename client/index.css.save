@@ -49,11 +49,11 @@ p {
 }
 
 .data-title {
-    font-size: 50px;
+    font-size: 40px;
     margin: 0;
 }
 .data-reading {
-    font-size: 120px;
+    font-size: 110px;
     margin: 0;
 }
 .data-reading-gear {
@@ -72,16 +72,11 @@ p {
 .rpm-bar {
     color:#fff!important;
     background-color:#4CAF50!important;
-    height: 160px; /* Was 100px, seems like overall screen size has changed */
+    height: 100px;
     width: 0;
 }
 
-.tpsBarContainer {
-  color: #000!important;
-  border: 4px solid yellow;
-  position: relative;
-  overflow: hidden;
-  height: 380px;
+.tpsBarContainer { color:#000!important; border: 1px solid white; position: relative; overflow: hidden; height: 380px; 
   margin-top: 1rem;
 }
 .tps-bar {
