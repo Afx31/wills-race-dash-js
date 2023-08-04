@@ -16,18 +16,15 @@ socket.on('CANBusMessage', (data) => {
   // var ign = document.getElementById('ign');
   
   // RPM progressive bar
-  rpmBar.style.setProperty('max-width', '1582px', 'important');
-  var rpmbarPercentage = 0; // = (currentRpm / redlineRpm) * 100
-  rpmbarPercentage = (data.rpm / 8300) * 100;
+  rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
+  var rpmbarPercentage = (data.rpm / 8300) * 100; // = (currentRpm/redlineRpm) * 100
 
   // TPS progressive bar
-  tpsBar.style.setProperty('max-height', '200px', 'important');
-  var tpsPercentValue = 0;
-  tpsPercentValue = (data.rpm / 100) * 100;
+  tpsBar.style.setProperty('max-height', '400px', 'important');
 
   // Assign data to UI controls
   rpmBar.style.width = rpmbarPercentage + '%';
-  tpsBar.style.height = tpsPercentValue + '%';
+  tpsBar.style.height = data.tps + '%';
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
   gear.textContent = data.gear;
