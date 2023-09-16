@@ -8,20 +8,23 @@ socket.on('CANBusMessage', (data) => {
   var voltage = document.getElementById('voltage');
   var iat = document.getElementById('iat');
   var ect = document.getElementById('ect');
+  var tpsBar = document.getElementById('tpsbar');
   var tps = document.getElementById('tps');
   var map = document.getElementById('map');
   var lambdaRatio = document.getElementById('lambdaRatio');
   // var inj = document.getElementById('inj');
   // var ign = document.getElementById('ign');
   
-  rpmBar.style.setProperty('max-width', '1582px', 'important');
+  // RPM progressive bar
+  rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
+  var rpmbarPercentage = (data.rpm / 8300) * 100; // = (currentRpm/redlineRpm) * 100
 
-  // = (currentRpm / redlineRpm) * 100
-  var rpmbarPercentage = 0;
-  var tempPercentValue = data.rpm / 8300;
-  rpmbarPercentage = tempPercentValue * 100;
+  // TPS progressive bar
+  tpsBar.style.setProperty('max-height', '400px', 'important');
 
-  rpmBar.style.width = rpmbarPercentage + "%";
+  // Assign data to UI controls
+  rpmBar.style.width = rpmbarPercentage + '%';
+  tpsBar.style.height = data.tps + '%';
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
   gear.textContent = data.gear;
