@@ -28,7 +28,7 @@ var gear = 1;
 var voltage = 14;
 var iat = 27;
 var ect = 80;
-var tps = 25;
+var tps = 0;
 var map = 40;
 var inj = 4;
 var ign = 5;
@@ -48,11 +48,15 @@ setInterval(() => {
   var buff664 = Buffer.alloc(4);
 
   rpm += 100;
+  tps += 5;
   speed += 10;
   gear += 1;
 
   if (rpm == 8400)
     rpm = 0;
+
+  if (tps == 100)
+    tps = 0;
 
   if (speed == 400)
     speed = 0;

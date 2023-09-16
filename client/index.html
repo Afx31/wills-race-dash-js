@@ -1,92 +1,198 @@
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>CAN Bus Dash Display</title>
     <link rel="stylesheet" href="index.css">
     <script src="/socket.io/socket.io.js"></script>
-  </head>
-  <style>
-    @font-face {
-    font-family: myFirstFont;
-    src: url(sansation_bold.woff);
-    font-weight: bold;
-    }
-
-    * {
-        font-family: myFirstFont;
-    }
-  </style>
-  <body>
-    <script src="/index.js"></script>
-    <div class="container">
+</head>
+<body>
+  <script src="/index.js"></script>
+  <div class="container">
       <div class="top-panel">
-        <div class="rpmBarContainer">
-          <div id="rpmbar" class="rpm-bar"></div>
-        </div>
+        <div id="rpmbar" class="rpm-bar"></div>
       </div>
+
       <div class="left-panel">
         <div class="info-panel-left">
-          <p class="data-title">Coolant: </p>
+          <p class="data-title">Coolant:</p>
           <hr />
-          <p id="ect" class="data-reading" class="data-reading"></p>
+          <p id="ect" class="data-reading">-</p>
         </div>
         <div class="info-panel-left">
-          <p class="data-title">IAT: </p>
+          <p class="data-title">IAT:</p>
           <hr />
-          <p id="iat" class="data-reading"></p>
+          <p id="iat" class="data-reading">-</p>
         </div>
         <div class="info-panel-left">
-          <p class="data-title">MAP: </p>
+          <p class="data-title">MAP:</p>
           <hr />
-          <p id="map" class="data-reading"></p>
+          <p id="map" class="data-reading">-</p>
         </div>
         <div class="info-panel-left">
-          <p class="data-title">Air/Fuel: </p>
+          <p class="data-title">Air/Fuel:</p>
           <hr />
-          <p id="lambdaRatio" class="data-reading"></p>
-        </div>        
+          <p id="lambdaRatio" class="data-reading">-</p>
+        </div>
       </div>
+
       <div class="middle-panel">
-        <div class="info-panel-middle">
-          <p class="data-title">RPM: </p>
-          <hr />
-          <p id="rpmNum" class="data-reading"></p>
+        <div class="middle-panel-top-section">
+          <div class="info-panel-middle-top">
+            <div class="data-title">RPM:</div>
+            <hr />
+            <p id="rpmNum" class="data-reading">-</p>
+          </div>
+          <div class="info-panel-middle-top">
+            <div class="data-title">Speed:</div>
+            <hr />
+            <p id="speed" class="data-reading">-</p>
+          </div>
         </div>
-        <div class="info-panel-middle">
-          <p class="data-title">Speed: </p>
-          <hr />
-          <p id="speed" class="data-reading"></p>
-        </div>
-        <div class="info-panel-middle">
-          <p class="data-title">Gear: </p>
-          <hr />
-          <p id="gear" class="data-reading-gear"></p>
+        <div class="middle-panel-bottom-section">
+          <div class="test-grid-template">
+            <div class="info-panel-middle-bottom-left">
+              <div class="data-title">Gear:</div>
+              <hr />
+              <p id="gear" class="data-reading-gear">-</p>
+            </div>
+            <div class="info-panel-middle-bottom-right">
+              <div class="data-title">TPS:</div>
+              <div class="tpsBarContainer">
+                <div id="tpsbar" class="tps-bar"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="right-panel">
         <div class="info-panel-right">
-          <p class="data-title">Oil Temp: </p>
+          <p class="data-title">Oil Temp:</p>
           <hr />
           <p id="oilTemp" class="data-reading">-</p>
         </div>
         <div class="info-panel-right">
-          <p class="data-title">Oil Pressure: </p>
+          <p class="data-title">Oil Pressure:</p>
           <hr />
           <p id="oilPressure" class="data-reading">-</p>
         </div>
         <div class="info-panel-right">
-          <p class="data-title">TPS: </p>
+          <p class="data-title">TPS:</p>
           <hr />
-          <p id="tps" class="data-reading"></p>
+          <p id="tps" class="data-reading">-</p>
         </div>
         <div class="info-panel-right">
-          <p class="data-title">Voltage: </p>
+          <p class="data-title">Voltage:</p>
           <hr />
-          <p id="voltage" class="data-reading"></p>
-        </div>
+          <p id="voltage" class="data-reading">-</p>
+          body {
+            background-color: #111A22;
+            color: white;
+            overflow: hidden;
+            font-family: 'myFirstFont', Arial, Helvetica, sans-serif;
+          }
+          /* ---------------------------------------------------------------- */
+          .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* grid-gap: 20px; */
+            /* padding: 20px; */
+          }
+          /* ---------------------------------------------------------------- */
+          .top-panel {
+            grid-column: 1 / -1;
+            border-bottom: 0.5px solid yellow;
+          }
+          .rpm-bar {
+            color: #fff!important;
+            background-color: #4CAF50!important;
+            height: 160px;
+            width: 0;
+          }
+          /* ---------------------------------------------------------------- */
+          .left-panel {}
+          .right-panel {}
+          
+          .middle-panel { 
+            /* border: 0.5px solid red; */
+            /* padding: 10px; */
+            margin: 0;
+          }
+          .middle-panel-top-section {
+            /* border: 0.5px solid yellow; */
+            text-align: center;
+          }
+          .middle-panel-bottom-section {
+            /* border: 0.5px solid yellow; */
+            text-align: center;
+          }
+          .test-grid-template {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+          }
+          /* ---------------------------------------------------------------- */
+          .info-panel-left {
+            /* border: 0.5px solid pink; */
+            text-align: left;
+            padding: 10px;
+            margin: 0;
+          }
+          .info-panel-middle-top {
+            /* border: 0.5px solid black; */
+            text-align: center;
+            padding: 10px;
+            margin: 0;
+          }
+          .info-panel-middle-bottom-left {
+            /* border: 0.5px solid white; */
+            display: inline-block;
+            margin-right: 20px;
+            /* text-align: center; */
+          }
+          .info-panel-middle-bottom-right {
+            /* border: 0.5px solid white; */
+            display: inline-block; 
+            margin-right: 20px; 
+            /* text-align: center; */
+          }
+          .info-panel-right {
+            /* border: 0.5px solid pink; */
+            text-align: right;
+            padding: 10px;
+            margin: 0;
+          }
+          /* ---------------------------------------------------------------- */
+          .tpsBarContainer {
+            color: #000!important;
+            border: 4px solid yellow;
+            position: relative;
+            overflow: hidden;
+            height: 380px;
+            margin-top: 5px;
+            }
+          .tps-bar {
+            color:#fff!important;
+            background-color:#4CAF50!important;
+            height: 0%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
+          /* ---------------------------------------------------------------- */
+          .data-title {
+            font-size: 40px;
+            margin: 0;
+          }
+          .data-reading {
+            font-size: 110px;
+            margin: 0;
+          }
+          .data-reading-gear {
+            font-size: 290px;
+            margin: 0;
+          }        </div>
       </div>
-    </div>
-  </body>
+  </div>
+</body>
 </html>
