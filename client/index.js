@@ -22,6 +22,9 @@ socket.on('CANBusMessage', (data) => {
   // TPS progressive bar
   tpsBar.style.setProperty('max-height', '400px', 'important');
 
+  if (data.tps === 65535)
+    data.tps = 0
+
   // Assign data to UI controls
   rpmBar.style.width = rpmbarPercentage + '%';
   tpsBar.style.height = data.tps + '%';
