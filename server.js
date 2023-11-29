@@ -50,7 +50,9 @@ channel.addListener('onMessage', function(msg) {
   if (msg.id === 662 || msg.id === 1634) {
     canbusData.tps = msg.data.readUIntBE(0, 2);
     canbusData.map = msg.data.readUIntBE(2, 2);
-  }
+  if (canbusData.tps === 65535)
+    canbusData.tps = 0
+ }
 
   // Injector duration, Ignition advance
   if (msg.id === 663 || msg.id === 1635) {
