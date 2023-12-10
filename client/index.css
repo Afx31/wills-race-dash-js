@@ -15,12 +15,45 @@ body {
 .top-panel {
   grid-column: 1 / -1;
   border-bottom: 0.5px solid yellow;
+  position: relative;
+  margin-bottom: 3rem;
 }
+
 .rpm-bar {
   color: #fff!important;
   background-color: #4CAF50!important;
-  height: 160px;
+  /* height: 160px;  */
+  height: 130px; 
   width: 0;
+}
+
+.top-panel-thousands-marks {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  position: absolute;
+  min-width: 1905px;
+  width: 1905px;
+}
+.grid-item {
+  border-right: .1px solid white;
+  box-sizing: border-box;
+  /* height: 170px; */
+  height: 140px;
+  width: 100%;
+  position: relative;
+}
+.grid-item-zero {
+  position: absolute;
+  width: auto;
+}
+.grid-item-p {
+  position: absolute;
+  bottom: -45px;
+  right: -12px;
+}
+.grid-item p {
+  margin: 0;
+  font-size: 40px;
 }
 /* ---------------------------------------------------------------- */
 .left-panel {}
