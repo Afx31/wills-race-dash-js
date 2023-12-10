@@ -47,8 +47,8 @@ setInterval(() => {
   var buff663 = Buffer.alloc(4);
   var buff664 = Buffer.alloc(4);
 
-  rpm += 100;
-  tps += 10;
+  rpm += 200;
+  tps += 5;
   speed += 10;
   gear += 1;
 
