@@ -1,11 +1,12 @@
 {
-  "name": "pi-race-dash",
+  "name": "wills-race-dash",
   "version": "1.0.0",
-  "description": "A Pi Can race dash display for my track car",
+  "description": "A PiCan race dash display for my racecar",
   "main": "server.js",
   "scripts": {
     "test": "node testcar.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "repository": {
     "type": "git",
