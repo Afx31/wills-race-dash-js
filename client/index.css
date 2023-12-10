@@ -33,6 +33,7 @@ body {
   min-width: 1905px;
   width: 1905px;
 }
+
 .grid-item {
   border-right: .1px solid white;
   box-sizing: border-box;
