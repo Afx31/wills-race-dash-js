@@ -1,14 +1,14 @@
-// var socket = io.connect('localhost:3000'); // Linux
-var socket = new WebSocket('ws://localhost:3000'); // Windows
+var socket = io.connect('localhost:3000'); // Linux
+//var socket = new WebSocket('ws://localhost:3000'); // Windows
 
 // Windows
-socket.onopen = () => {
-  console.log('Connected to the server');
-};
+//socket.onopen = () => {
+//  console.log('Connected to the server');
+//};
 
-// socket.on('CANBusMessage', (data) => { // Linux
-socket.onmessage = (event) => { // Windows
-  var data = JSON.parse(event.data); // Windows
+socket.on('CANBusMessage', (data) => { // Linux
+//socket.onmessage = (event) => { // Windows
+  //var data = JSON.parse(event.data); // Windows
 
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
@@ -51,20 +51,21 @@ socket.onmessage = (event) => { // Windows
 
   // RPM Bar colouring
   var percentInt = parseInt(rpmBar.style.width);
-  if (percentInt > 90)
+  if (percentInt > 85)
     rpmBar.style.setProperty('background-color', 'red', 'important');
-  else if (percentInt > 65)
+  else if (percentInt > 60)
     rpmBar.style.setProperty('background-color', 'yellow', 'important');
   else
     rpmBar.style.setProperty('background-color', 'green', 'important');
-};
+}); // Linux
+//}; // Windows
 
 // Windows
-socket.onclose = () => {
-  console.log('Connection closed');
-};
+//socket.onclose = () => {
+//  console.log('Connection closed');
+//};
 
 // Windows
-socket.onerror = (error) => {
-  console.error(`WebSocket error: ${error}`);
-};
+//socket.onerror = (error) => {
+//  console.error(`WebSocket error: ${error}`);
+//};
