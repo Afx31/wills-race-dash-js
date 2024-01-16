@@ -4,6 +4,8 @@ var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
 
+// Config
+var currentCar = 'mazda';
 var channel = can.createRawChannel('vcan0', true);
 
 var carPIDConfig = {
@@ -51,6 +53,20 @@ setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
 }, 100);
 
+
+channel.addListener('onMessage', function(msg) {
+  // Square bracket notation
+  var currentConfig = carPIDConfig[currentCar];
+
+  for (var param in currentConfig) {
+    var config = currentConfig[param];
+    if (config.ids.includes(msg.id)) {
+      canbusData[param] = msg.data.readUIntBE(config.offset, config.size)l
+    }
+  }
+
+  console.log(canbusData);
+});
 
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
