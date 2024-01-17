@@ -23,8 +23,6 @@ socket.on('CANBusMessage', (data) => { // Linux
   var inj = document.getElementById('inj');
   var ign = document.getElementById('ign');
 
-console.log(data);
-
   // RPM progressive bar
  rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
  var rpmbarPercentage = (data.rpm / 9000) * 100; // = (currentRpm/redlineRpm) * 100
@@ -32,6 +30,7 @@ console.log(data);
   // TPS progressive bar
   tpsBar.style.setProperty('max-height', '400px', 'important');
 
+  //TODO: This needs to be moved to backend
   if (data.tps === 65535)
     data.tps = 0;
 
@@ -41,12 +40,12 @@ console.log(data);
   rpmNum.textContent = data.rpm;
   speed.textContent = data.speed;
   gear.textContent = data.gear;
-  voltage.textContent = (data.voltage / 10).toFixed(1);
+  voltage.textContent = (data.voltage / 10).toFixed(1); //TODO: This needs to be moved to backend
   iat.textContent = data.iat;
   ect.textContent = data.ect;
   tps.textContent = data.tps;
   map.textContent = (data.map / 10) / 2;
-  lambdaRatio.textContent = (32768 / data.lambdaRatio).toFixed(2);
+  lambdaRatio.textContent = (32768 / data.lambdaRatio).toFixed(2); //TODO: This needs to be moved to backend
   inj.textContent = data.inj;
   ign.textContent = data.ign;
 
