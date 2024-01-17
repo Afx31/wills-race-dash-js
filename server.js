@@ -6,7 +6,7 @@ var socketio = require('socket.io')(server);
 
 // Config
 var currentCar = 'mazda';
-var channel = can.createRawChannel('vcan0', true);
+var channel = can.createRawChannel('can0', true);
 
 var carPIDConfig = {
   honda: {
@@ -24,7 +24,7 @@ var carPIDConfig = {
     lambda: { ids: [664, 1636], offset: 2, size: 2 }
   },
   mazda: {
-    tps: { ids: [201], offset: 5, size: 1 },
+    tps: { ids: [513], offset: 4, size: 3 },
   }
 }
 
@@ -56,18 +56,21 @@ setInterval(() => {
 
 channel.addListener('onMessage', function(msg) {
   // Square bracket notation
-  var currentConfig = carPIDConfig[currentCar];
-
+ var currentConfig = carPIDConfig[currentCar];
   for (var param in currentConfig) {
     var config = currentConfig[param];
     if (config.ids.includes(msg.id)) {
-      canbusData[param] = msg.data.readUIntBE(config.offset, config.size)l
+      canbusData.tps = msg.data.readUIntBE(config.offset, config.size)
     }
   }
+//console.log(msg.id)
 
-  console.log(canbusData);
+	if (msg.id === 513) {
+	  console.log(msg.data);
+         }
+//  console.log(canbusData);
 });
-
+/*
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
   if (msg.id === 660 || msg.id === 1632) {
@@ -105,6 +108,6 @@ channel.addListener('onMessage', function(msg) {
 
   console.log(canbusData);
 });
-
+*/
 channel.start();
 server.listen(3000);
