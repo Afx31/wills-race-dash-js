@@ -32,6 +32,7 @@ function dataConversion() {
 
   if (currentCar === 'mazda') {
     canbusData.tps = canbusData.tps / 2;
+
   }
 };
 
@@ -48,20 +49,26 @@ setInterval(() => {
 
 /* -------------------- Data acquisition -------------------- */
 
+// Testing:
 channel.addListener('onMessage', function(msg) {
- var currentConfig = canPIDConfig[currentCar];
-
-  for (var param in currentConfig) {
-    var config = currentConfig[param];
-
-    if (config.ids.includes(msg.id))
-      canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
-  }
-
-  dataConversion();
-
-  console.log(canbusData);
+  console.log('RPM: ', msg.data.readUIntBE(0, 2));
+  console.log('TPS: ', msg.data.readUIntBE(6, 1));
 });
+
+// channel.addListener('onMessage', function(msg) {
+//  var currentConfig = canPIDConfig[currentCar];
+
+//   for (var param in currentConfig) {
+//     var config = currentConfig[param];
+
+//     if (config.ids.includes(msg.id))
+//       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
+//   }
+
+//   dataConversion();
+
+//   console.log(canbusData);
+// });
 
 /*
 channel.addListener('onMessage', function(msg) {
