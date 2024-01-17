@@ -3,30 +3,11 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
+const canPIDConfig = require('./config/canbusConfig');
 
 // Config
 var currentCar = 'mazda';
-var channel = can.createRawChannel('can0', true);
-
-var carPIDConfig = {
-  honda: {
-    rpm: { ids: [660, 1632], offset: 0, size: 2 },
-    speed: { ids: [660, 1632], offset: 2, size: 2 },
-    gear: { ids: [660, 1632], offset: 4, size: 1 },
-    voltage: { ids: [660, 1632], offset: 5, size: 1 },
-    iat: { ids: [661, 1633], offset: 0, size: 2 },
-    ect: { ids: [661, 1633], offset: 2, size: 2 },
-    tps: { ids: [662, 1634], offset: 0, size: 2 },
-    map: { ids: [662, 1634], offset: 2, size: 2 },
-    inj: { ids: [663, 1635], offset: 0, size: 2 },
-    ign: { ids: [663, 1635], offset: 2, size: 2 },
-    lambdaRatio: { ids: [664, 1636], offset: 0, size: 2 },
-    lambda: { ids: [664, 1636], offset: 2, size: 2 }
-  },
-  mazda: {
-    tps: { ids: [513], offset: 4, size: 3 },
-  }
-}
+var channel = can.createRawChannel('vcan0', true);
 
 var canbusData = {
   rpm: 0,
@@ -43,6 +24,7 @@ var canbusData = {
   lambda: 0
 }
 
+/* -------------------- socketio setup -------------------- */
 app.use(express.static(__dirname + '/client'));
 
 socketio.on('connection', function(client) {
@@ -53,24 +35,18 @@ setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
 }, 100);
 
-
+/* -------------------- Data acquisition -------------------- */
 channel.addListener('onMessage', function(msg) {
   // Square bracket notation
- var currentConfig = carPIDConfig[currentCar];
+ var currentConfig = canPIDConfig[currentCar];
   for (var param in currentConfig) {
     var config = currentConfig[param];
     if (config.ids.includes(msg.id)) {
       canbusData.tps = msg.data.readUIntBE(config.offset, config.size)
     }
   }
-//console.log(msg.id)
-
-	if (msg.id === 513) {
-	  console.log(msg.data);
-         }
-//  console.log(canbusData);
 });
-/*
+
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
   if (msg.id === 660 || msg.id === 1632) {
@@ -108,6 +84,6 @@ channel.addListener('onMessage', function(msg) {
 
   console.log(canbusData);
 });
-*/
+
 channel.start();
 server.listen(3000);
