@@ -24,6 +24,17 @@ var canbusData = {
   lambda: 0
 }
 
+/* -------------------- Data conversion -------------------- */
+function dataConversion() {
+  if (currentCar === 'honda') {
+
+  }
+
+  if (currentCar === 'mazda') {
+    canbusData.tps = canbusData.tps / 2;
+  }
+};
+
 /* -------------------- socketio setup -------------------- */
 app.use(express.static(__dirname + '/client'));
 
@@ -46,6 +57,8 @@ channel.addListener('onMessage', function(msg) {
     if (config.ids.includes(msg.id))
       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
   }
+
+  dataConversion();
 
   console.log(canbusData);
 });
