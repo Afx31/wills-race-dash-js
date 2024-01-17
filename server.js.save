@@ -38,13 +38,15 @@ setInterval(() => {
 /* -------------------- Data acquisition -------------------- */
 
 channel.addListener('onMessage', function(msg) {
+ // Square bracket notation
  var currentConfig = canPIDConfig[currentCar];
-
   for (var param in currentConfig) {
+//console.log('1: ', param)
     var config = currentConfig[param];
-
-    if (config.ids.includes(msg.id))
+//console.log('2: ', config)
+    if (config.ids.includes(msg.id)) {//	console.log(msg.data.readUIntBE(config.offset, config.size))
       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
+    }
   }
 
   console.log(canbusData);

@@ -23,6 +23,8 @@ socket.on('CANBusMessage', (data) => { // Linux
   var inj = document.getElementById('inj');
   var ign = document.getElementById('ign');
 
+console.log(data);
+
   // RPM progressive bar
  rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
  var rpmbarPercentage = (data.rpm / 9000) * 100; // = (currentRpm/redlineRpm) * 100
