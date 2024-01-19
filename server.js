@@ -6,8 +6,8 @@ var socketio = require('socket.io')(server);
 const canPIDConfig = require('./config/canbusConfig');
 
 // Config
-var currentCar = 'honda';
-var channel = can.createRawChannel('vcan0', true);
+var currentCar = 'mazda';
+var channel = can.createRawChannel('can0', true);
 
 var canbusData = {
   rpm: 0,
@@ -31,8 +31,8 @@ function dataConversion() {
   }
 
   if (currentCar === 'mazda') {
-    canbusData.tps = canbusData.tps / 2;
-
+    //canbusData.tps = canbusData.tps / 2;
+   // console.log('Conversion: ', canbusData.tps);
   }
 };
 
@@ -51,24 +51,31 @@ setInterval(() => {
 
 // Testing:
 channel.addListener('onMessage', function(msg) {
-  console.log('RPM: ', msg.data.readUIntBE(0, 2));
-  console.log('TPS: ', msg.data.readUIntBE(6, 1));
+//if (msg.id === 201 || msg.id === 513) {
+//	console.log('RPM: ', msg.data.readUIntBE(0, 2));
+//}
+//if (msg.id === 201 || msg.id === 513)
+  //console.log('TPS: ', msg.data.readUIntBE(6, 1));
 });
 
-// channel.addListener('onMessage', function(msg) {
-//  var currentConfig = canPIDConfig[currentCar];
+ channel.addListener('onMessage', function(msg) {
+  var currentConfig = canPIDConfig[currentCar];
+/*
+   for (var param in currentConfig) {
+     var config = currentConfig[param];
 
-//   for (var param in currentConfig) {
-//     var config = currentConfig[param];
+     if (config.ids.includes(msg.id))
+       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
+   }
 
-//     if (config.ids.includes(msg.id))
-//       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
-//   }
-
-//   dataConversion();
-
-//   console.log(canbusData);
-// });
+   dataConversion();
+*/
+if (msg.id === 513) {
+canbusData.tps = msg.data.readUIntBE(6, 1) / 2;
+}
+console.log('TPS: ', canbusData.tps)
+   //console.log(canbusData);
+ });
 
 /*
 channel.addListener('onMessage', function(msg) {
