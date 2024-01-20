@@ -6,8 +6,8 @@ var socketio = require('socket.io')(server);
 const canPIDConfig = require('./config/canbusConfig');
 
 // Config
-var currentCar = 'mazda';
-var channel = can.createRawChannel('can0', true);
+const currentCar = 'honda';
+const canChannel = 'vcan0';
 
 var canbusData = {
   rpm: 0,
@@ -27,7 +27,7 @@ var canbusData = {
 /* -------------------- Data conversion -------------------- */
 function dataConversion() {
   if (currentCar === 'honda') {
-
+    canbusData.tps = canbusData.tps/2
   }
 
   if (currentCar === 'mazda') {
@@ -37,6 +37,9 @@ function dataConversion() {
 };
 
 /* -------------------- socketio setup -------------------- */
+//#region Main
+var channel = can.createRawChannel(canChannel, true);
+
 app.use(express.static(__dirname + '/client'));
 
 socketio.on('connection', function(client) {
@@ -46,21 +49,12 @@ socketio.on('connection', function(client) {
 setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
 }, 100);
+//#endregion
 
 /* -------------------- Data acquisition -------------------- */
-
-// Testing:
 channel.addListener('onMessage', function(msg) {
-//if (msg.id === 201 || msg.id === 513) {
-//	console.log('RPM: ', msg.data.readUIntBE(0, 2));
-//}
-//if (msg.id === 201 || msg.id === 513)
-  //console.log('TPS: ', msg.data.readUIntBE(6, 1));
-});
-
- channel.addListener('onMessage', function(msg) {
   var currentConfig = canPIDConfig[currentCar];
-/*
+
    for (var param in currentConfig) {
      var config = currentConfig[param];
 
@@ -68,14 +62,8 @@ channel.addListener('onMessage', function(msg) {
        canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
    }
 
-   dataConversion();
-*/
-if (msg.id === 513) {
-canbusData.tps = msg.data.readUIntBE(6, 1) / 2;
-}
-console.log('TPS: ', canbusData.tps)
-   //console.log(canbusData);
- });
+   dataConversion();    
+});
 
 /*
 channel.addListener('onMessage', function(msg) {
@@ -116,5 +104,6 @@ channel.addListener('onMessage', function(msg) {
   console.log(canbusData);
 });
 */
+
 channel.start();
 server.listen(3000);
