@@ -3,28 +3,11 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
+const canPIDConfig = require('./config/canbusConfig');
 
-var channel = can.createRawChannel('vcan0', true);
-
-var carPIDConfig = {
-  honda: {
-    rpm: { ids: [660, 1632], offset: 0, size: 2 },
-    speed: { ids: [660, 1632], offset: 2, size: 2 },
-    gear: { ids: [660, 1632], offset: 4, size: 1 },
-    voltage: { ids: [660, 1632], offset: 5, size: 1 },
-    iat: { ids: [661, 1633], offset: 0, size: 2 },
-    ect: { ids: [661, 1633], offset: 2, size: 2 },
-    tps: { ids: [662, 1634], offset: 0, size: 2 },
-    map: { ids: [662, 1634], offset: 2, size: 2 },
-    inj: { ids: [663, 1635], offset: 0, size: 2 },
-    ign: { ids: [663, 1635], offset: 2, size: 2 },
-    lambdaRatio: { ids: [664, 1636], offset: 0, size: 2 },
-    lambda: { ids: [664, 1636], offset: 2, size: 2 }
-  },
-  mazda: {
-    tps: { ids: [201], offset: 5, size: 1 },
-  }
-}
+// Config
+const currentCar = 'honda';
+const canChannel = 'vcan0';
 
 var canbusData = {
   rpm: 0,
@@ -41,6 +24,22 @@ var canbusData = {
   lambda: 0
 }
 
+/* -------------------- Data conversion -------------------- */
+function dataConversion() {
+  if (currentCar === 'honda') {
+    //canbusData.tps = canbusData.tps/2
+  }
+
+  if (currentCar === 'mazda') {
+    canbusData.tps = canbusData.tps / 2;
+    console.log('Conversion: ', canbusData.tps);
+  }
+};
+
+/* -------------------- socketio setup -------------------- */
+//#region Main
+var channel = can.createRawChannel(canChannel, true);
+
 app.use(express.static(__dirname + '/client'));
 
 socketio.on('connection', function(client) {
@@ -50,8 +49,23 @@ socketio.on('connection', function(client) {
 setInterval(() => {
   socketio.emit('CANBusMessage', canbusData);
 }, 100);
+//#endregion
 
+/* -------------------- Data acquisition -------------------- */
+channel.addListener('onMessage', function(msg) {
+  var currentConfig = canPIDConfig[currentCar];
 
+   for (var param in currentConfig) {
+     var config = currentConfig[param];
+
+     if (config.ids.includes(msg.id))
+       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
+   }
+
+   dataConversion();    
+});
+
+/*
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
   if (msg.id === 660 || msg.id === 1632) {
@@ -89,6 +103,7 @@ channel.addListener('onMessage', function(msg) {
 
   console.log(canbusData);
 });
+*/
 
 channel.start();
 server.listen(3000);
