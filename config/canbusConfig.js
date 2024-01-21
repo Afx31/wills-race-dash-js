@@ -14,8 +14,8 @@ const canPIDConfig = {
     lambda: { ids: [664, 1636], offset: 2, size: 2 }
   },
   mazda: {
-    rpm: { ids: [201, 513], offset: 0, size: 2},
-    tps: { ids: [201, 513], offset: 4, size: 3 }, // Or 6 & 1
+    // rpm: { ids: [201, 513], offset: 0, size: 2},
+    tps: { ids: [201, 513], offset: 6, size: 1 }
   }
 };
 

@@ -27,12 +27,12 @@ var canbusData = {
 /* -------------------- Data conversion -------------------- */
 function dataConversion() {
   if (currentCar === 'honda') {
-    canbusData.tps = canbusData.tps/2
+    //canbusData.tps = canbusData.tps/2
   }
 
   if (currentCar === 'mazda') {
-    //canbusData.tps = canbusData.tps / 2;
-   // console.log('Conversion: ', canbusData.tps);
+    canbusData.tps = canbusData.tps / 2;
+    console.log('Conversion: ', canbusData.tps);
   }
 };
 
