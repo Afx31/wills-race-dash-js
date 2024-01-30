@@ -34,43 +34,4 @@ const CanPIDConfig = {
   }
 };
 
-const LapTimer = {
-  currentLap: 0,
-  lastLap: 0,
-  bestLap: 0,
-  pbLap: 0,
-
-  startLap: function () {
-    // Start a new lap by resetting current lap time
-    this.currentLapTime = 0;
-  },
-
-  finishLap: function () {
-    if (this.currentLap > 0) {
-      // Compare and update best lap times
-      if (this.bestLap === null || this.currentLap < this.bestLap)
-        this.bestLap = this.currentLap;
-
-      if (this.pbLap === null || this.currentLap < this.pbLap)
-        this.pbLap = this.currentLap
-    }
-  },
-
-  updateLap: function (elapsedTime) {
-    this.currentLap = elapsedTime;
-  },
-
-  getCurrentLapTime: function () {
-    return this.currentLapTime;
-  },
-
-  getBestTodayLapTime: function () {
-    return this.bestTodayLapTime;
-  },
-
-  getBestEverLapTime: function () {
-    return this.bestEverLapTime;
-  }
-};
-
-module.exports = { CanData, CanPIDConfig, LapTimer };
+module.exports = { CanData, CanPIDConfig };

@@ -3,14 +3,16 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
-const { CanData, CanPIDConfig, LapTimer } = require('./config/dashConfig');
+const { CanData, CanPIDConfig } = require('./config/canConfig');
+const { TrackStartFinishLines, GPSData, LapTimer } = require('./config/timerConfig');
+const { getGPSLocation } = require('./gps/gps');
 
 // Config
-const currentCar = 'mazda';
 const canChannel = 'vcan0';
+const currentCar = 'honda';
+const currentTrack = 'home';
 
-/* -------------------- socketio setup -------------------- */
-//#region Main
+/* -------------------- Socket setup -------------------- */
 var channel = can.createRawChannel(canChannel, true);
 
 app.use(express.static(__dirname + '/client'));
@@ -22,7 +24,52 @@ socketio.on('connection', function(client) {
 setInterval(() => {
   socketio.emit('CANBusMessage', CanData);
 }, 100);
-//#endregion
+
+setInterval(() => {
+  socketio.emit('LapTimer', LapTimer);
+}, 1)
+
+/* -------------------- Lap Timer -------------------- */
+/* TODO: Setup layout
+- For now, auto start timing. (lon run this will be controller by button)
+- currentLap timer starts
+- Now we keep checking the current GPS location to see when it'll match track start/finish line gps coordinates
+  - then update lastLap with currentLap
+  - then compare for bestLap & pbLap
+  - do colours or something for these, flashing?
+    - fyi, the lat/lon will need to span across the whole track. might be tricky
+- The gps checking will need to vary left to right. Maybe best to get the left most and right most, then have something to calculate everything inbetween
+
+TESTING
+- Do it around the block
+*/
+
+getGPSLocation();
+LapTimer.startLap();
+
+setInterval(() => {
+  //console.log(GPSData)
+  console.log(GPSData)
+  
+  // deep cloning
+  //const newGPSData = JSON.parse(JSON.stringify(GPSData));
+
+  if (finished)
+    LapTimer.finishLap();  
+}, 100);
+
+
+// Alson
+// constantly check against gps.gpsData being changed
+// IF so, then run x function to check if we're at finish line.
+// IF so, then run LapTimer.finishLap()
+
+
+// External button to stop timing:
+// if (buttonClicked) {
+//   clearInterval(intervalLapTimer);
+// }
+
 
 /* -------------------- Data conversion -------------------- */
 function dataConversion() {
@@ -36,9 +83,10 @@ function dataConversion() {
   }
 };
 
+
 /* -------------------- Data acquisition -------------------- */
 channel.addListener('onMessage', function(msg) {
-  var currentConfig = canPIDConfig[currentCar];
+  var currentConfig = CanPIDConfig[currentCar];
 
    for (var param in currentConfig) {
      var config = currentConfig[param];
