@@ -5,7 +5,7 @@ var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
 const { CanData, CanPIDConfig } = require('./config/canConfig');
 const { TrackStartFinishLines, GPSData, LapTimer } = require('./config/timerConfig');
-const { getGPSLocation } = require('./gps/gps');
+const { GetGPSLocation } = require('./gps/gps');
 
 // Config
 const canChannel = 'vcan0';
@@ -44,18 +44,14 @@ TESTING
 - Do it around the block
 */
 
-getGPSLocation();
+GetGPSLocation();
 LapTimer.startLap();
 
 setInterval(() => {
-  //console.log(GPSData)
-  console.log(GPSData)
-  
-  // deep cloning
-  //const newGPSData = JSON.parse(JSON.stringify(GPSData));
-
-  if (finished)
-    LapTimer.finishLap();  
+  if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+    LapTimer.finishLap();
+    LapTimer.startLap();
+  }
 }, 100);
 
 
@@ -63,7 +59,9 @@ setInterval(() => {
 // constantly check against gps.gpsData being changed
 // IF so, then run x function to check if we're at finish line.
 // IF so, then run LapTimer.finishLap()
+// deep cloning
 
+//const newGPSData = JSON.parse(JSON.stringify(GPSData));
 
 // External button to stop timing:
 // if (buttonClicked) {

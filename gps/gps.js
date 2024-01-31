@@ -1,4 +1,4 @@
-const fs = require('fs');
+//const fs = require('fs');
 const Gpsd = require('node-gpsd-client')
 const client = new Gpsd({
   port: 2947,              // default
@@ -7,7 +7,7 @@ const client = new Gpsd({
 });
 const { GPSData } = require('../config/timerConfig');
 
-function getGPSLocation() {
+function GetGPSLocation() {
   client.on('connected', () => {
     console.log('Gpsd connected')
     client.watch({
@@ -51,4 +51,4 @@ function getGPSLocation() {
 
 client.connect()
 
-module.exports = { getGPSLocation }
+module.exports = { GetGPSLocation }
