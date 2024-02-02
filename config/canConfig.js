@@ -10,7 +10,9 @@ const CanData = {
   inj: 0,
   ign: 0,
   lambdaRatio: 0,
-  lambda: 0
+  lambda: 0,
+  oilTemp: 0,
+  oilPressure: 0
 }
 
 const CanPIDConfig = {
@@ -26,7 +28,9 @@ const CanPIDConfig = {
     inj: { ids: [663, 1635], offset: 0, size: 2 },
     ign: { ids: [663, 1635], offset: 2, size: 2 },
     lambdaRatio: { ids: [664, 1636], offset: 0, size: 2 },
-    lambda: { ids: [664, 1636], offset: 2, size: 2 }
+    lambda: { ids: [664, 1636], offset: 2, size: 2 },
+    oilTemp: { ids: [665, 1637], offset: 0, size: 2 },
+    oilPressure: { ids: [665, 1637], offset: 2, size: 2 }
   },
   mazda: {
     // rpm: { ids: [201, 513], offset: 0, size: 2},

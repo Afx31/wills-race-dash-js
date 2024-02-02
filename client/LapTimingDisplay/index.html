@@ -8,7 +8,7 @@
 </head>
   <body>
     <!-- <script src="https://unpkg.com/ws"></script> --> <!-- Windows -->
-    <script src="/index.js"></script>
+    <script src="/LapTimingDisplay/index.js"></script>
     <div class="container">
       <div class="top-panel">
         <div id="rpmbar" class="rpm-bar"></div>
@@ -47,80 +47,72 @@
       </div>
 
       <div class="middle-panel">
-        <div class="middle-inner-1">
-          <div class="info-panel-left">
-            <p class="data-title">Coolant:</p>
-            <hr />
-            <p id="ect" class="data-reading">-</p>
-          </div>
-          <div class="info-panel-left">
-            <p class="data-title">IAT:</p>
-            <hr />
-            <p id="iat" class="data-reading">-</p>
-          </div>
+        <!-- Top Row -->
+        <div class="middle-info-panel">
+          <p class="data-title">Coolant:</p>
+          <hr />
+          <p id="ect" class="data-reading">-</p>
         </div>
-        <div class="middle-inner-2">
-          <div class="info-panel-left">
-            <p class="data-title">Oil Temp:</p>
-            <hr />
-            <p id="oilTemp" class="data-reading">-</p>
-          </div>
-          <div class="info-panel-left">
-            <p class="data-title">Oil Pressure:</p>
-            <hr />
-            <p id="oilPressure" class="data-reading">-</p>
-          </div>
+        <div class="middle-info-panel">
+          <p class="data-title">TPS:</p>
+          <hr />
+          <p id="tps" class="data-reading">-</p>
         </div>
-        <div class="middle-inner-3">
-          <div class="info-panel-left">
-            <p class="data-title">MAP:</p>
-            <hr />
-            <p id="map" class="data-reading">-</p>
-          </div>
-          <div class="info-panel-left">
-            <p class="data-title">Voltage:</p>
-            <hr />
-            <p id="voltage" class="data-reading">-</p>
-          </div>
+        <div class="middle-info-panel">
+          <p class="data-title">Oil Temp:</p>
+          <hr />
+          <p id="oilTemp" class="data-reading">-</p>
         </div>
-        <div class="middle-inner-4">
-          <div class="info-panel-left">
-            <p class="data-title">Speed:</p>
-            <hr />
-            <p id="speed" class="data-reading">-</p>
-          </div>
-          <div class="info-panel-left">
-            <p class="data-title">RPM:</p>
-            <hr />
-            <p id="rpmNum" class="data-reading">-</p>
-          </div>
+        <div class="middle-info-panel">
+          <p class="data-title">RPM:</p>
+          <hr />
+          <p id="rpmNum" class="data-reading">-</p>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="middle-info-panel">
+          <p class="data-title">IAT:</p>
+          <hr />
+          <p id="iat" class="data-reading">-</p>
+        </div>
+        
+        <div class="middle-info-panel">
+          <p class="data-title">Voltage:</p>
+          <hr />
+          <p id="voltage" class="data-reading">-</p>
+        </div>
+        <div class="middle-info-panel">
+          <p class="data-title">Oil Pressure:</p>
+          <hr />
+          <p id="oilPressure" class="data-reading">-</p>
+        </div>
+        <div class="middle-info-panel">
+          <p class="data-title">Speed:</p>
+          <hr />
+          <p id="speed" class="data-reading">-</p>
         </div>
       </div>
 
       <div class="bottom-panel">
-        <div class="bottom-panel-left">
-          <div class="bottom-panel-info-left">
-            <p class="data-title">Current Lap:</p>
-            <hr />
-            <p id="currentLap" class="data-reading">-</p>
-          </div>
-          <div class="bottom-panel-info-left">
-            <p class="data-title">Best Lap:</p>
-            <hr />
-            <p id="bestLap" class="data-reading">-</p>
-          </div>
+        <div class="bottom-info-panel">
+          <p class="data-title">Current Lap:</p>
+          <hr />
+          <p id="currentLap" class="data-reading">-</p>
         </div>
-        <div class="bottom-panel-right">
-          <div class="bottom-panel-info-right">
-            <p class="data-title">Last Lap:</p>
-            <hr />
-            <p id="lastLap" class="data-reading">-</p>
-          </div>
-          <div class="bottom-panel-info-right">
-            <p class="data-title">PB Lap:</p>
-            <hr />
-            <p id="pbLap" class="data-reading">-</p>
-          </div>
+        <div class="bottom-info-panel">
+          <p class="data-title">Best Lap:</p>
+          <hr />
+          <p id="bestLap" class="data-reading">-</p>
+        </div>
+        <div class="bottom-info-panel">
+          <p class="data-title">Last Lap:</p>
+          <hr />
+          <p id="lastLap" class="data-reading">-</p>
+        </div>
+        <div class="bottom-info-panel">
+          <p class="data-title">PB Lap:</p>
+          <hr />
+          <p id="pbLap" class="data-reading">-</p>
         </div>
       </div>
     </div>

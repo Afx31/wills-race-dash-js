@@ -47,12 +47,12 @@ TESTING
 GetGPSLocation();
 LapTimer.startLap();
 
-setInterval(() => {
-  if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
-    LapTimer.finishLap();
-    LapTimer.startLap();
-  }
-}, 100);
+// setInterval(() => {
+  // if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+  //   LapTimer.finishLap();
+  //   LapTimer.startLap();
+  // }
+// }, 100);
 
 
 // Alson

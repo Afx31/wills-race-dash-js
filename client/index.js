@@ -70,14 +70,3 @@ socket.on('CANBusMessage', (data) => { // Linux
 //socket.onerror = (error) => {
 //  console.error(`WebSocket error: ${error}`);
 //};
-
-
-socket.on('LapTimer', (data) => {
-  var hours = Math.floor(data.currentLap / 3600000);
-  var minutes = Math.floor((data.currentLap % 3600000) / 60000);
-  var seconds = Math.floor((data.currentLap % 60000) / 1000);
-  var milliseconds = data.currentLap % 1000;
-
-  // Now map to control
-  console.log(`Timer: ${hours}:${minutes}:${seconds}.${milliseconds}`);
-});
