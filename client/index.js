@@ -1,6 +1,6 @@
 var socket = io.connect('localhost:3000'); // Linux
-//var socket = new WebSocket('ws://localhost:3000'); // Windows
 
+//var socket = new WebSocket('ws://localhost:3000'); // Windows
 // Windows
 //socket.onopen = () => {
 //  console.log('Connected to the server');
@@ -9,6 +9,7 @@ var socket = io.connect('localhost:3000'); // Linux
 socket.on('CANBusMessage', (data) => { // Linux
 //socket.onmessage = (event) => { // Windows
   //var data = JSON.parse(event.data); // Windows
+
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
@@ -24,8 +25,8 @@ socket.on('CANBusMessage', (data) => { // Linux
   var ign = document.getElementById('ign');
 
   // RPM progressive bar
- rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
- var rpmbarPercentage = (data.rpm / 9000) * 100; // = (currentRpm/redlineRpm) * 100
+  rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
+  var rpmbarPercentage = (data.rpm / 9000) * 100; // = (currentRpm/redlineRpm) * 100
 
   // TPS progressive bar
   tpsBar.style.setProperty('max-height', '400px', 'important');

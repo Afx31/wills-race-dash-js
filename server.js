@@ -3,41 +3,16 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
-const canPIDConfig = require('./config/canbusConfig');
+const { CanData, CanPIDConfig } = require('./config/canConfig');
+const { TrackStartFinishLines, GPSData, LapTimer } = require('./config/timerConfig');
+const { GetGPSLocation } = require('./gps/gps');
 
 // Config
-const currentCar = 'honda';
 const canChannel = 'vcan0';
+const currentCar = 'honda';
+const currentTrack = 'home';
 
-var canbusData = {
-  rpm: 0,
-  speed: 0,
-  gear: 0,
-  voltage: 0,
-  iat: 0,
-  ect: 0,
-  tps: 0,
-  map: 0,
-  inj: 0,
-  ign: 0,
-  lambdaRatio: 0,
-  lambda: 0
-}
-
-/* -------------------- Data conversion -------------------- */
-function dataConversion() {
-  if (currentCar === 'honda') {
-    //canbusData.tps = canbusData.tps/2
-  }
-
-  if (currentCar === 'mazda') {
-    canbusData.tps = canbusData.tps / 2;
-    console.log('Conversion: ', canbusData.tps);
-  }
-};
-
-/* -------------------- socketio setup -------------------- */
-//#region Main
+/* -------------------- Socket setup -------------------- */
 var channel = can.createRawChannel(canChannel, true);
 
 app.use(express.static(__dirname + '/client'));
@@ -47,61 +22,95 @@ socketio.on('connection', function(client) {
 });
 
 setInterval(() => {
-  socketio.emit('CANBusMessage', canbusData);
+  socketio.emit('CANBusMessage', CanData);
 }, 100);
-//#endregion
+
+setInterval(() => {
+  socketio.emit('LapTimer', LapTimer);
+}, 100)
+
+/* -------------------- Lap Timer -------------------- */
+//GetGPSLocation();
+LapTimer.startLap();
+
+/*
+  - Very rough idea on how the comparison would work. Would need to put it into it's own class with a bunch of logic around the matching
+  - I think we could have a field for each track where we know the 'quickest' possible lap time.
+    - Don't do the GPS location check until we've gone past that quickest lap. i.e. 58 seconds @ Wakefield
+*/
+// setInterval(() => {
+//   if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+//     LapTimer.finishLap();
+//     LapTimer.startLap();
+//   }
+// }, 100);
+
+/* -------------------- Data conversion -------------------- */
+function dataConversion() {
+  if (currentCar === 'honda') {
+    //CanData.tps = CanData.tps/2
+  }
+
+  if (currentCar === 'mazda') {
+    CanData.tps = CanData.tps / 2;
+    console.log('Conversion: ', CanData.tps);
+  }
+};
+
 
 /* -------------------- Data acquisition -------------------- */
 channel.addListener('onMessage', function(msg) {
-  var currentConfig = canPIDConfig[currentCar];
+  var currentConfig = CanPIDConfig[currentCar];
 
    for (var param in currentConfig) {
      var config = currentConfig[param];
 
      if (config.ids.includes(msg.id))
-       canbusData[param] = msg.data.readUIntBE(config.offset, config.size)
+       CanData[param] = msg.data.readUIntBE(config.offset, config.size)
    }
 
    dataConversion();    
 });
 
+
+/* ------------------ OLD Data acquisition ------------------ */
 /*
 channel.addListener('onMessage', function(msg) {
   // Rpm, speed, gear, voltage
   if (msg.id === 660 || msg.id === 1632) {
-    canbusData.rpm = msg.data.readUIntBE(0, 2);
-    canbusData.speed = msg.data.readUIntBE(2, 2);
-    canbusData.gear = msg.data.readUIntBE(4, 1);
-    canbusData.voltage = msg.data.readUIntBE(5, 1);
+    CanData.rpm = msg.data.readUIntBE(0, 2);
+    CanData.speed = msg.data.readUIntBE(2, 2);
+    CanData.gear = msg.data.readUIntBE(4, 1);
+    CanData.voltage = msg.data.readUIntBE(5, 1);
   }
   
   // Temperates - IAT, ECT
   if (msg.id === 661 || msg.id === 1633) {
-    canbusData.iat = msg.data.readUIntBE(0, 2);
-    canbusData.ect = msg.data.readUIntBE(2, 2);
+    CanData.iat = msg.data.readUIntBE(0, 2);
+    CanData.ect = msg.data.readUIntBE(2, 2);
   }
   
   // TPS, MAP
   if (msg.id === 662 || msg.id === 1634) {
-    canbusData.tps = msg.data.readUIntBE(0, 2);
-    canbusData.map = msg.data.readUIntBE(2, 2);
-  if (canbusData.tps === 65535)
-    canbusData.tps = 0
+    CanData.tps = msg.data.readUIntBE(0, 2);
+    CanData.map = msg.data.readUIntBE(2, 2);
+  if (CanData.tps === 65535)
+    CanData.tps = 0
  }
 
   // Injector duration, Ignition advance
   if (msg.id === 663 || msg.id === 1635) {
-    canbusData.inj = msg.data.readUIntBE(0, 2);
-    canbusData.ign = msg.data.readUIntBE(2, 2);
+    CanData.inj = msg.data.readUIntBE(0, 2);
+    CanData.ign = msg.data.readUIntBE(2, 2);
   }
 
   // Lambda Ratio, Lambda
   if (msg.id === 664 || msg.id === 1636) {
-    canbusData.lambdaRatio = msg.data.readUIntBE(0, 2);
-    canbusData.lambda = msg.data.readUIntBE(2, 2);
+    CanData.lambdaRatio = msg.data.readUIntBE(0, 2);
+    CanData.lambda = msg.data.readUIntBE(2, 2);
   }
 
-  console.log(canbusData);
+  console.log(CanData);
 });
 */
 
