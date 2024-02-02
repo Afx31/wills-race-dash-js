@@ -27,47 +27,23 @@ setInterval(() => {
 
 setInterval(() => {
   socketio.emit('LapTimer', LapTimer);
-}, 1)
+}, 100)
 
 /* -------------------- Lap Timer -------------------- */
-/* TODO: Setup layout
-- For now, auto start timing. (lon run this will be controller by button)
-- currentLap timer starts
-- Now we keep checking the current GPS location to see when it'll match track start/finish line gps coordinates
-  - then update lastLap with currentLap
-  - then compare for bestLap & pbLap
-  - do colours or something for these, flashing?
-    - fyi, the lat/lon will need to span across the whole track. might be tricky
-- The gps checking will need to vary left to right. Maybe best to get the left most and right most, then have something to calculate everything inbetween
-
-TESTING
-- Do it around the block
-*/
-
-GetGPSLocation();
+//GetGPSLocation();
 LapTimer.startLap();
 
+/*
+  - Very rough idea on how the comparison would work. Would need to put it into it's own class with a bunch of logic around the matching
+  - I think we could have a field for each track where we know the 'quickest' possible lap time.
+    - Don't do the GPS location check until we've gone past that quickest lap. i.e. 58 seconds @ Wakefield
+*/
 // setInterval(() => {
-  // if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
-  //   LapTimer.finishLap();
-  //   LapTimer.startLap();
-  // }
+//   if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+//     LapTimer.finishLap();
+//     LapTimer.startLap();
+//   }
 // }, 100);
-
-
-// Alson
-// constantly check against gps.gpsData being changed
-// IF so, then run x function to check if we're at finish line.
-// IF so, then run LapTimer.finishLap()
-// deep cloning
-
-//const newGPSData = JSON.parse(JSON.stringify(GPSData));
-
-// External button to stop timing:
-// if (buttonClicked) {
-//   clearInterval(intervalLapTimer);
-// }
-
 
 /* -------------------- Data conversion -------------------- */
 function dataConversion() {
