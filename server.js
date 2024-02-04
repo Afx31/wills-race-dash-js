@@ -26,12 +26,18 @@ setInterval(() => {
 }, 100);
 
 setInterval(() => {
-  socketio.emit('LapTimer', LapTimer);
+  LapTimer.updateCurrentLap();
+  socketio.emit('LapTimer', LapTimer.currentLap);
 }, 100)
+
+setInterval(() => {
+  socketio.emit('LapStats', LapTimer.lastLap, LapTimer.bestLap, LapTimer.pbLap);
+}, 10000)
 
 /* -------------------- Lap Timer -------------------- */
 //GetGPSLocation();
 LapTimer.startLap();
+
 
 /*
   - Very rough idea on how the comparison would work. Would need to put it into it's own class with a bunch of logic around the matching

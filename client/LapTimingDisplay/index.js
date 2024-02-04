@@ -37,29 +37,33 @@ socket.on('CANBusMessage', (data) => {
 });
 
 socket.on('LapTimer', (data) => {
-  var currentMinutes = Math.floor((data.currentLap % 3600000) / 60000);
-  var currentSeconds = Math.floor((data.currentLap % 60000) / 1000);
-  var currentMilliseconds = data.currentLap % 1000;
-
-  var bestMinutes = Math.floor((data.bestLap % 3600000) / 60000);
-  var bestSeconds = Math.floor((data.bestLap % 60000) / 1000);
-  var bestMilliseconds = data.bestLap % 1000;
-
-  var lastMinutes = Math.floor((data.lastLap % 3600000) / 60000);
-  var lastSeconds = Math.floor((data.lastLap % 60000) / 1000);
-  var lastMilliseconds = data.lastLap % 1000;
-
-  var pbMinutes = Math.floor((data.pbLap % 3600000) / 60000);
-  var pbSeconds = Math.floor((data.pbLap % 60000) / 1000);
-  var pbMilliseconds = data.pbLap % 1000;
-
+  var currentMinutes = Math.floor((data % 3600000) / 60000);
+  var currentSeconds = (Math.floor((data % 60000) / 1000)).toString().padStart(2, '0');
+  var currentMilliseconds = (data % 1000).toString().padStart(3, '0');
+  
   var currentLap = document.getElementById('currentLap');
-  var bestLap = document.getElementById('bestLap');
-  var lastLap = document.getElementById('lastLap');
-  var pbLap = document.getElementById('pbLap');
 
   currentLap.textContent = `${currentMinutes}:${currentSeconds}.${currentMilliseconds}`;
-  bestLap.textContent = `${bestMinutes}:${bestSeconds}.${bestMilliseconds}`;;
-  lastLap.textContent = `${lastMinutes}:${lastSeconds}.${lastMilliseconds}`;;
-  pbLap.textContent = `${pbMinutes}:${pbSeconds}.${pbMilliseconds}`;;
+});
+
+socket.on('LapStats', (lastLap, bestLap, pbLap) => {
+  var lastMinutes = Math.floor((lastLap % 3600000) / 60000);
+  var lastSeconds = (Math.floor((lastLap % 60000) / 1000)).toString().padStart(2, '0');
+  var lastMilliseconds = (lastLap % 1000).toString().padStart(3, '0');
+
+  var bestMinutes = Math.floor((bestLap % 3600000) / 60000);
+  var bestSeconds = (Math.floor((bestLap % 60000) / 1000)).toString().padStart(2, '0');
+  var bestMilliseconds = (bestLap % 1000).toString().padStart(3, '0');
+
+  var pbMinutes = Math.floor((pbLap % 3600000) / 60000);
+  var pbSeconds = (Math.floor((pbLap % 60000) / 1000)).toString().padStart(2, '0');
+  var pbMilliseconds = (pbLap % 1000).toString().padStart(3, '0');
+
+  var lastLap = document.getElementById('lastLap');
+  var bestLap = document.getElementById('bestLap');
+  var pbLap = document.getElementById('pbLap');
+
+  lastLap.textContent = `${lastMinutes}:${lastSeconds}.${lastMilliseconds.to}`;
+  bestLap.textContent = `${bestMinutes}:${bestSeconds}.${bestMilliseconds}`;  
+  pbLap.textContent = `${pbMinutes}:${pbSeconds}.${pbMilliseconds}`;
 });

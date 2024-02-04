@@ -27,19 +27,17 @@ const GPSData = {
 }
 
 const LapTimer = {
+  lapStartTime: 0,
   currentLap: 0,
   lastLap: 118374,
   bestLap: 113293,
   pbLap: 117394,
 
-  startLap: function () {
-    // Starting a new lap
-    this.currentLapTime = 0;
-    
-    var intervalStartLap = setInterval(() => {
-      this.currentLap++;
-      // console.log('Time: ', this.currentLap)
-    }, 1);
+  startLap: function () { this.lapStartTime = new Date().getTime(); },
+  
+  updateCurrentLap: function () {
+    const currentTime = new Date().getTime();
+    this.currentLap = currentTime - this.lapStartTime;
   },
 
   finishLap: function () {
@@ -53,22 +51,6 @@ const LapTimer = {
         this.pbLap = this.bestLap;
     }
   },
-
-  // updateLap: function (elapsedTime) {
-  //   this.currentLap = elapsedTime;
-  // },
-
-  // getCurrentLapTime: function () {
-  //   return this.currentLapTime;
-  // },
-
-  // getBestTodayLapTime: function () {
-  //   return this.bestTodayLapTime;
-  // },
-
-  // getBestEverLapTime: function () {
-  //   return this.bestEverLapTime;
-  // }
 };
 
 module.exports = { TrackStartFinishLines, GPSData, LapTimer };
