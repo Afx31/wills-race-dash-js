@@ -5,7 +5,7 @@ const client = new Gpsd({
   hostname: 'localhost',   // default
   parse: true
 });
-const { GPSData } = require('../config/timerConfig');
+const { GPSData } = require('../config/lapTimingConfig');
 
 function GetGPSLocation() {
   client.on('connected', () => {

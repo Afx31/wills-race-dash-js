@@ -26,7 +26,7 @@ const GPSData = {
   lon: 0
 }
 
-const LapTimer = {
+const LapTiming = {
   lapStartTime: 0,
   currentLap: 0,
   lastLap: 118374,
@@ -41,16 +41,14 @@ const LapTimer = {
   },
 
   finishLap: function () {
-    if (this.currentLap > 0) {
-      this.lastLap = this.currentLap;
+    this.lastLap = this.currentLap;
 
-      if (this.currentLap > this.bestLap)
-        this.bestLap = this.currentLap;
+    if (this.currentLap > this.bestLap)
+      this.bestLap = this.currentLap;
 
-      if (this.bestLap > this.pbLap)
-        this.pbLap = this.bestLap;
-    }
+    if (this.bestLap > this.pbLap)
+      this.pbLap = this.bestLap;
   },
 };
 
-module.exports = { TrackStartFinishLines, GPSData, LapTimer };
+module.exports = { TrackStartFinishLines, GPSData, LapTiming };

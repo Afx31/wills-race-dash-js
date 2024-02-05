@@ -36,7 +36,7 @@ socket.on('CANBusMessage', (data) => {
     rpmBar.style.setProperty('background-color', 'green', 'important');
 });
 
-socket.on('LapTimer', (data) => {
+socket.on('LapTiming', (data) => {
   var currentMinutes = Math.floor((data % 3600000) / 60000);
   var currentSeconds = (Math.floor((data % 60000) / 1000)).toString().padStart(2, '0');
   var currentMilliseconds = (data % 1000).toString().padStart(3, '0');
