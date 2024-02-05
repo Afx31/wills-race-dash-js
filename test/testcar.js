@@ -61,19 +61,19 @@ setInterval(() => {
   gear += 1;
   oilPressure += 0.2;
 
-  if (rpm == 8400)
+  if (rpm > 8400)
     rpm = 0;
 
   if (tps == 100)
     tps = 0;
 
-  if (speed == 400)
+  if (speed > 200)
     speed = 0;
 
   if (gear == 7)
     gear = 1;
 
-  if (oilPressure == 100)
+  if (oilPressure > 100)
     oilPressure = 90;
  
   // Write to Buffer
