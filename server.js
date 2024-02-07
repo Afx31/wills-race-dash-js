@@ -8,14 +8,16 @@ const { TrackStartFinishLines, GPSData, LapTiming } = require('./config/lapTimin
 const { GetGPSLocation } = require('./gps/gps');
 
 // Config
-const canChannel = 'vcan0';
-const currentCar = 'honda';
-const currentTrack = 'home';
-const lapTiming = false;
+const serverConfig = {
+  canChannel: 'vcan0',
+  currentCar: 'honda',
+  currentTrack: 'home',
+  lapTiming: false
+};
 
 /* -------------------- Socket setup -------------------- */
 //#region
-var channel = can.createRawChannel(canChannel, true);
+var channel = can.createRawChannel(serverConfig.canChannel, true);
 
 app.use(express.static(__dirname + '/client'));
 
@@ -27,18 +29,20 @@ setInterval(() => {
   socketio.emit('CANBusMessage', CanData);
 }, 100);
 
+if (serverConfig.lapTiming) {
 setInterval(() => {
   LapTiming.updateCurrentLap();
   socketio.emit('LapTiming', LapTiming.currentLap);
-}, 100)
+  }, 100);
 
 setInterval(() => {
   socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
-}, 10000)
+  }, 10000);
+}
 //#endregion
 
 /* -------------------- Lap Timing -------------------- */
-if (lapTiming) {
+if (serverConfig.lapTiming) {
   //GetGPSLocation();
   LapTiming.startLap();
 
@@ -47,6 +51,7 @@ if (lapTiming) {
     - I think we could have a field for each track where we know the 'quickest' possible lap time.
       - Don't do the GPS location check until we've gone past that quickest lap. i.e. 58 seconds @ Wakefield
   */
+
   // setInterval(() => {
   //   if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
   //     LapTiming.finishLap();
@@ -58,11 +63,12 @@ if (lapTiming) {
 
 /* -------------------- Data conversion -------------------- */
 function dataConversion() {
-  if (currentCar === 'honda') {
-    //CanData.tps = CanData.tps/2
+  if (serverConfig.currentCar === 'honda') {
+    if (CanData.tps === 65535)
+      CanData.tps = 0
   }
 
-  if (currentCar === 'mazda') {
+  if (serverConfig.currentCar === 'mazda') {
     CanData.tps = CanData.tps / 2;
     console.log('Conversion: ', CanData.tps);
   }
@@ -70,7 +76,7 @@ function dataConversion() {
 
 /* -------------------- Data acquisition -------------------- */
 channel.addListener('onMessage', function(msg) {
-  var currentConfig = CanPIDConfig[currentCar];
+  var currentConfig = CanPIDConfig[serverConfig.currentCar];
 
    for (var param in currentConfig) {
      var config = currentConfig[param];

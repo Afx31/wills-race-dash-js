@@ -1,8 +1,8 @@
 //const fs = require('fs');
 const Gpsd = require('node-gpsd-client')
 const client = new Gpsd({
-  port: 2947,              // default
-  hostname: 'localhost',   // default
+  port: 2947,
+  hostname: 'localhost',
   parse: true
 });
 const { GPSData } = require('../config/lapTimingConfig');
