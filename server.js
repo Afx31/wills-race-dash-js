@@ -1,3 +1,4 @@
+const fs = require('fs');
 var can = require('socketcan');
 var express = require('express');
 var app = express();
@@ -12,7 +13,8 @@ const serverConfig = {
   canChannel: 'vcan0',
   currentCar: 'honda',
   currentTrack: 'home',
-  lapTiming: false
+  lapTiming: false,
+  dataLogging: true
 };
 
 /* -------------------- Socket setup -------------------- */
@@ -30,13 +32,13 @@ setInterval(() => {
 }, 100);
 
 if (serverConfig.lapTiming) {
-setInterval(() => {
-  LapTiming.updateCurrentLap();
-  socketio.emit('LapTiming', LapTiming.currentLap);
+  setInterval(() => {
+    LapTiming.updateCurrentLap();
+    socketio.emit('LapTiming', LapTiming.currentLap);
   }, 100);
 
-setInterval(() => {
-  socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
+  setInterval(() => {
+    socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
   }, 10000);
 }
 //#endregion
@@ -75,17 +77,50 @@ function dataConversion() {
 };
 
 /* -------------------- Data acquisition -------------------- */
+var loggedData = {
+  ect: 0,
+  iat: 0,
+  map: 0,
+  oilTemp: 0,
+  oilPressure: 0
+}
+
+function DataLoggingValidation(field, data) {
+  var dataString = ''
+
+  if (serverConfig.dataLogging) {
+    if (data > loggedData[field])
+      loggedData[field] = data;
+
+    dataString = JSON.stringify(loggedData);
+  // } else { // TODO: ONLY commented out to test read/write without the external button
+    fs.writeFile('datalog.json', dataString, (err) => {
+      if (err)
+        console.error('Error writing to file:', err);
+    });
+  }
+}
+
 channel.addListener('onMessage', function(msg) {
   var currentConfig = CanPIDConfig[serverConfig.currentCar];
 
    for (var param in currentConfig) {
      var config = currentConfig[param];
 
-     if (config.ids.includes(msg.id))
+     if (config.ids.includes(msg.id)) {
        CanData[param] = msg.data.readUIntBE(config.offset, config.size)
+
+       // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
+      //  if (serverConfig.dataLogging) {
+          DataLoggingValidation(param, CanData[param]);
+      //  }
+     }
    }
 
-   dataConversion();    
+   dataConversion();
+
+   // Send data straight to UI
+  //  socketio.emit('CANBusMessage', CanData);
 });
 
 /* ------------------ OLD Data acquisition ------------------ */
