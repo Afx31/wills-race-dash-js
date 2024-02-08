@@ -64,7 +64,7 @@ if (serverConfig.lapTiming) {
 }
 
 /* -------------------- Data conversion -------------------- */
-function dataConversion() {
+function DataConversion() {
   if (serverConfig.currentCar === 'honda') {
     if (CanData.tps === 65535)
       CanData.tps = 0
@@ -85,7 +85,7 @@ var loggedData = {
   oilPressure: 0
 }
 
-function DataLoggingValidation(field, data) {
+function DataLogging(field, data) {
   var dataString = ''
 
   if (serverConfig.dataLogging) {
@@ -104,23 +104,23 @@ function DataLoggingValidation(field, data) {
 channel.addListener('onMessage', function(msg) {
   var currentConfig = CanPIDConfig[serverConfig.currentCar];
 
-   for (var param in currentConfig) {
-     var config = currentConfig[param];
+  for (var param in currentConfig) {
+    var config = currentConfig[param];
 
-     if (config.ids.includes(msg.id)) {
-       CanData[param] = msg.data.readUIntBE(config.offset, config.size)
+    if (config.ids.includes(msg.id)) {
+      CanData[param] = msg.data.readUIntBE(config.offset, config.size)
 
-       // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
-      //  if (serverConfig.dataLogging) {
-          DataLoggingValidation(param, CanData[param]);
-      //  }
-     }
-   }
+      // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
+      // if (serverConfig.dataLogging) {
+        DataLogging(param, CanData[param]);
+      // }
+    }
+  }
 
-   dataConversion();
+  DataConversion();
 
-   // Send data straight to UI
-  //  socketio.emit('CANBusMessage', CanData);
+  // Send data straight to UI
+  // socketio.emit('CANBusMessage', CanData);
 });
 
 /* ------------------ OLD Data acquisition ------------------ */
