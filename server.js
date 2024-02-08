@@ -94,7 +94,7 @@ function DataLogging(field, data) {
 
     dataString = JSON.stringify(loggedData);
   // } else { // TODO: ONLY commented out to test read/write without the external button
-    fs.writeFile('datalog.json', dataString, (err) => {
+    fs.writeFile('data/datalog.json', dataString, (err) => {
       if (err)
         console.error('Error writing to file:', err);
     });
