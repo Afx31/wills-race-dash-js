@@ -55,13 +55,13 @@ socket.on('CANBusMessage', (data) => { // Linux
   oilPressure.textContent = data.oilPressure;
 
   // RPM Bar colouring
- var percentInt = parseInt(rpmBar.style.width);
- if (percentInt > 85)
-   rpmBar.style.setProperty('background-color', 'red', 'important');
- else if (percentInt > 60)
-   rpmBar.style.setProperty('background-color', 'yellow', 'important');
- else
-   rpmBar.style.setProperty('background-color', 'green', 'important');
+  var percentInt = parseInt(rpmBar.style.width);
+  if (percentInt > 85)
+    rpmBar.style.setProperty('background-color', 'red', 'important');
+  else if (percentInt > 60)
+    rpmBar.style.setProperty('background-color', 'yellow', 'important');
+  else
+    rpmBar.style.setProperty('background-color', 'green', 'important');
 }); // Linux
 //}; // Windows
 

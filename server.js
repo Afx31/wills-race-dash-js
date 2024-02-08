@@ -17,6 +17,23 @@ const serverConfig = {
   dataLogging: true
 };
 
+var tempLoggedData = {
+  rpm: 0,
+  speed: 0,
+  gear: 0,
+  voltage: 0,
+  iat: 0,
+  ect: 0,
+  tps: 0,
+  map: 0,
+  inj: 0,
+  ign: 0,
+  lambdaRatio: 0,
+  lambda: 0,
+  oilTemp: 0,
+  oilPressure: 0
+}
+
 /* -------------------- Socket setup -------------------- */
 //#region
 var channel = can.createRawChannel(serverConfig.canChannel, true);
@@ -40,6 +57,12 @@ if (serverConfig.lapTiming) {
   setInterval(() => {
     socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
   }, 10000);
+}
+
+if (serverConfig.dataLogging) {
+  setInterval(() => {
+    socketio.emit('DataLogging', tempLoggedData);
+  }, 5000);
 }
 //#endregion
 
@@ -77,23 +100,28 @@ function DataConversion() {
 };
 
 /* -------------------- Data acquisition -------------------- */
-var loggedData = {
-  ect: 0,
-  iat: 0,
-  map: 0,
-  oilTemp: 0,
-  oilPressure: 0
-}
-
-function DataLogging(field, data) {
-  var dataString = ''
+function DataLogging() {
+  // fs.readFile('data/datalog.json', 'utf8', (err, data) => {
+  //   if (err) {
+  //     console.error('Error reading the file:', err);
+  //     return;
+  //   }
+  
+  //   try {
+  //     const jsonData = JSON.parse(data);
+  //     console.log('JSON: ', jsonData);
+  //   } catch (parseError) {
+  //     console.error('Error parsing JSON:', parseError);
+  //   }
+  // });
 
   if (serverConfig.dataLogging) {
-    if (data > loggedData[field])
-      loggedData[field] = data;
+    for (var prop in CanData)
+      if (CanData[prop] > tempLoggedData[prop])
+        tempLoggedData[prop] = CanData[prop];
 
-    dataString = JSON.stringify(loggedData);
-  // } else { // TODO: ONLY commented out to test read/write without the external button
+    dataString = JSON.stringify(tempLoggedData);
+   // } else { // TODO: ONLY commented out to test read/write without the external button 
     fs.writeFile('data/datalog.json', dataString, (err) => {
       if (err)
         console.error('Error writing to file:', err);
@@ -107,17 +135,16 @@ channel.addListener('onMessage', function(msg) {
   for (var param in currentConfig) {
     var config = currentConfig[param];
 
-    if (config.ids.includes(msg.id)) {
-      CanData[param] = msg.data.readUIntBE(config.offset, config.size)
-
-      // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
-      // if (serverConfig.dataLogging) {
-        DataLogging(param, CanData[param]);
-      // }
-    }
+    if (config.ids.includes(msg.id))
+      CanData[param] = msg.data.readUIntBE(config.offset, config.size);
   }
 
   DataConversion();
+
+  // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
+  // if (serverConfig.dataLogging) {
+    DataLogging();
+  // }
 
   // Send data straight to UI
   // socketio.emit('CANBusMessage', CanData);
