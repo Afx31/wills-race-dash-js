@@ -21,8 +21,10 @@ socket.on('CANBusMessage', (data) => { // Linux
   var tps = document.getElementById('tps');
   var map = document.getElementById('map');
   var lambdaRatio = document.getElementById('lambdaRatio');
-  var inj = document.getElementById('inj');
-  var ign = document.getElementById('ign');
+  // var inj = document.getElementById('inj');
+  // var ign = document.getElementById('ign');
+  var oilTemp = document.getElementById('oilTemp');
+  var oilPressure = document.getElementById('oilPressure');
 
   // RPM progressive bar
   rpmBar.style.setProperty('max-width', '1920px', 'important'); //1582px
@@ -47,8 +49,10 @@ socket.on('CANBusMessage', (data) => { // Linux
   tps.textContent = data.tps;
   map.textContent = (data.map / 10) / 2;
   lambdaRatio.textContent = (32768 / data.lambdaRatio).toFixed(2); //TODO: This needs to be moved to backend
-  inj.textContent = data.inj;
-  ign.textContent = data.ign;
+  // inj.textContent = data.inj;
+  // ign.textContent = data.ign;
+  oilTemp.textContent = data.oilTemp;
+  oilPressure.textContent = data.oilPressure;
 
   // RPM Bar colouring
  var percentInt = parseInt(rpmBar.style.width);
