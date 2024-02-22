@@ -1,3 +1,4 @@
+const fs = require('fs');
 var can = require('socketcan');
 var express = require('express');
 var app = express();
@@ -12,8 +13,26 @@ const serverConfig = {
   canChannel: 'vcan0',
   currentCar: 'honda',
   currentTrack: 'home',
-  lapTiming: false
+  lapTiming: false,
+  dataLogging: false
 };
+
+var tempLoggedData = {
+  rpm: 0,
+  speed: 0,
+  gear: 0,
+  voltage: 0,
+  iat: 0,
+  ect: 0,
+  tps: 0,
+  map: 0,
+  inj: 0,
+  ign: 0,
+  lambdaRatio: 0,
+  lambda: 0,
+  oilTemp: 0,
+  oilPressure: 0
+}
 
 /* -------------------- Socket setup -------------------- */
 //#region
@@ -30,14 +49,20 @@ setInterval(() => {
 }, 100);
 
 if (serverConfig.lapTiming) {
-setInterval(() => {
-  LapTiming.updateCurrentLap();
-  socketio.emit('LapTiming', LapTiming.currentLap);
+  setInterval(() => {
+    LapTiming.updateCurrentLap();
+    socketio.emit('LapTiming', LapTiming.currentLap);
   }, 100);
 
-setInterval(() => {
-  socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
+  setInterval(() => {
+    socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
   }, 10000);
+}
+
+if (serverConfig.dataLogging) {
+  setInterval(() => {
+    socketio.emit('DataLogging', tempLoggedData);
+  }, 5000);
 }
 //#endregion
 
@@ -62,7 +87,7 @@ if (serverConfig.lapTiming) {
 }
 
 /* -------------------- Data conversion -------------------- */
-function dataConversion() {
+function DataConversion() {
   if (serverConfig.currentCar === 'honda') {
     if (CanData.tps === 65535)
       CanData.tps = 0
@@ -75,17 +100,51 @@ function dataConversion() {
 };
 
 /* -------------------- Data acquisition -------------------- */
+function DataLogging() {
+  // Reads in the data logging memory file
+  // fs.readFile('data/datalog.json', 'utf8', (err, data) => {
+  //   if (err) {
+  //     console.error('Error reading the file:', err);
+  //     return;
+  //   }
+  
+  //   try {
+  //     const jsonData = JSON.parse(data);
+  //     console.log('JSON: ', jsonData);
+  //   } catch (parseError) {
+  //     console.error('Error parsing JSON:', parseError);
+  //   }
+  // });
+
+  if (serverConfig.dataLogging) {
+    for (var prop in CanData)
+      if (CanData[prop] > tempLoggedData[prop])
+        tempLoggedData[prop] = CanData[prop];
+
+    dataString = JSON.stringify(tempLoggedData);
+   // } else { // TODO: ONLY commented out to test read/write without the external button 
+    fs.writeFile('data/datalog.json', dataString, (err) => {
+      if (err)
+        console.error('Error writing to file:', err);
+    });
+  }
+}
+
 channel.addListener('onMessage', function(msg) {
   var currentConfig = CanPIDConfig[serverConfig.currentCar];
 
-   for (var param in currentConfig) {
-     var config = currentConfig[param];
+  for (var param in currentConfig) {
+    var config = currentConfig[param];
 
-     if (config.ids.includes(msg.id))
-       CanData[param] = msg.data.readUIntBE(config.offset, config.size)
-   }
+    if (config.ids.includes(msg.id))
+      CanData[param] = msg.data.readUIntBE(config.offset, config.size);
+  }
 
-   dataConversion();    
+  DataConversion();
+
+  // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
+  if (serverConfig.dataLogging)
+    DataLogging();
 });
 
 /* ------------------ OLD Data acquisition ------------------ */
