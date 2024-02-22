@@ -145,6 +145,10 @@ channel.addListener('onMessage', function(msg) {
   // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
   if (serverConfig.dataLogging)
     DataLogging();
+
+  // TESTING - Send data straight to UI. Will need to try this with live car data
+  // If this is used, make sure to comment out the socket emit on L47
+  // socketio.emit('CANBusMessage', CanData);
 });
 
 /* ------------------ OLD Data acquisition ------------------ */
