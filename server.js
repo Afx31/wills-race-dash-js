@@ -14,7 +14,7 @@ const serverConfig = {
   currentCar: 'honda',
   currentTrack: 'home',
   lapTiming: false,
-  dataLogging: true
+  dataLogging: false
 };
 
 var tempLoggedData = {
@@ -101,6 +101,7 @@ function DataConversion() {
 
 /* -------------------- Data acquisition -------------------- */
 function DataLogging() {
+  // Reads in the data logging memory file
   // fs.readFile('data/datalog.json', 'utf8', (err, data) => {
   //   if (err) {
   //     console.error('Error reading the file:', err);
@@ -142,12 +143,8 @@ channel.addListener('onMessage', function(msg) {
   DataConversion();
 
   // TODO: Commented out here to test ONLY writing to the file when clicking the 'stop datalogging button'
-  // if (serverConfig.dataLogging) {
+  if (serverConfig.dataLogging)
     DataLogging();
-  // }
-
-  // Send data straight to UI
-  // socketio.emit('CANBusMessage', CanData);
 });
 
 /* ------------------ OLD Data acquisition ------------------ */
