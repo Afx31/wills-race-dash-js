@@ -29,8 +29,8 @@ const CanPIDConfig = {
     ign: { ids: [663, 1635], offset: 2, size: 2 },
     lambdaRatio: { ids: [664, 1636], offset: 0, size: 2 },
     lambda: { ids: [664, 1636], offset: 2, size: 2 },
-    oilTemp: { ids: [665, 1637], offset: 0, size: 2 },
-    oilPressure: { ids: [665, 1637], offset: 2, size: 2 }
+    oilTemp: { ids: [667, 1639], offset: 0, size: 2 },
+    oilPressure: { ids: [667, 1639], offset: 2, size: 2 }
   },
   mazda: {
     // rpm: { ids: [201, 513], offset: 0, size: 2},
