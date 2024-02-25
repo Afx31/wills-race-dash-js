@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
+const path = require('path');
 const { CanData, CanPIDConfig } = require('./config/canConfig');
 const { TrackStartFinishLines, GPSData, LapTiming } = require('./config/lapTimingConfig');
 const { GetGPSLocation } = require('./gps/gps');
@@ -33,6 +34,21 @@ var tempLoggedData = {
   oilTemp: 0,
   oilPressure: 0
 }
+
+/* -------------------- Express redirect endpoint setup -------------------- */
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'index.html'));
+});
+
+app.get('/DataLoggingDisplay', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'DataLoggingDisplay', 'index.html'));
+});
+
+app.get('/LapTimingDisplay', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'LapTimingDisplay', 'index.html'));
+});
+
+app.use(express.static('client'));
 
 /* -------------------- Socket setup -------------------- */
 //#region
