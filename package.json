@@ -1,7 +1,7 @@
 {
   "name": "wills-race-dash",
   "version": "1.0.0",
-  "description": "A PiCan race dash display for my racecar",
+  "description": "A Raspberry Pi CANBus race dash display for my race car.",
   "main": "server.js",
   "scripts": {
     "test": "node testcar.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Afx31/pi-race-dash.git"
+    "url": "git+https://github.com/Afx31/wills-race-dash.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Afx31/pi-race-dash/issues"
+    "url": "https://github.com/Afx31/wills-race-dash/issues"
   },
-  "homepage": "https://github.com/Afx31/pi-race-dash#readme",
+  "homepage": "https://github.com/Afx31/wills-race-dash#readme",
   "dependencies": {
     "express": "^4.18.2",
     "node-gpsd-client": "^1.4.1",
