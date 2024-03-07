@@ -11,7 +11,7 @@ const { GetGPSLocation } = require('./gps/gps');
 
 // Config
 const serverConfig = {
-  canChannel: 'vcan0',
+  canChannel: 'can0',
   currentCar: 'honda',
   currentTrack: 'home',
   lapTiming: false,
