@@ -1,4 +1,5 @@
 const CanData = {
+  changeDisplay: 0,
   rpm: 0,
   speed: 0,
   gear: 0,
@@ -17,6 +18,7 @@ const CanData = {
 
 const CanPIDConfig = {
   honda: {
+    changeDisplay: {ids: [111, 273], offset: 0, size: 1},
     rpm: { ids: [660, 1632], offset: 0, size: 2 },
     speed: { ids: [660, 1632], offset: 2, size: 2 },
     gear: { ids: [660, 1632], offset: 4, size: 1 },

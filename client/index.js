@@ -1,5 +1,4 @@
 var socket = io.connect('localhost:3000'); // Linux
-
 //var socket = new WebSocket('ws://localhost:3000'); // Windows
 // Windows
 //socket.onopen = () => {
@@ -9,6 +8,10 @@ var socket = io.connect('localhost:3000'); // Linux
 socket.on('CANBusMessage', (data) => { // Linux
 //socket.onmessage = (event) => { // Windows
   //var data = JSON.parse(event.data); // Windows
+  
+  if (data.changeDisplay === 1) {
+    window.location.href = 'http://localhost:3000/LapTimingDisplay';
+  }
 
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');

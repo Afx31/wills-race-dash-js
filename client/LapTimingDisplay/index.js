@@ -1,6 +1,11 @@
 var socket = io.connect('localhost:3000');
 
 socket.on('CANBusMessage', (data) => {
+  
+  if (data.changeDisplay === 1) {
+    window.location.href = 'http://localhost:3000/DataLoggingDisplay';
+  }
+  
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
