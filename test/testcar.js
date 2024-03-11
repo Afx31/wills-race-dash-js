@@ -44,8 +44,8 @@ var inj = 4;
 var ign = 5;
 var lambdaRatio = 46686;
 var lambda = 22999;
-var oilTemp = 90;
-var oilPressure = 90;
+var oilTemp = 2111;
+var oilPressure = 2136;
 
 // Very hacked together test case
 setInterval(() => {
@@ -75,8 +75,8 @@ setInterval(() => {
   tps += 5;
   speed += 10;
   gear += 1;
-  //oilPressure += 0.2;
-  oilPressure = 2136
+  oilTemp += 2;
+  oilPressure += 2;
 
   if (rpm > 8400)
     rpm = 0;
@@ -89,9 +89,6 @@ setInterval(() => {
 
   if (gear == 7)
     gear = 1;
-
-  // if (oilPressure > 100)
-  //   oilPressure = 90;
  
   // Write to Buffer
   // buff111.writeUIntBE(changeDisplay, 0, 1);
