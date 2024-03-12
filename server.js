@@ -104,12 +104,15 @@ if (serverConfig.lapTiming) {
 }
 
 /* -------------------- Data conversion -------------------- */
+// var prevOilPressure;
+// var prevOilTemp;
 function DataConversion() {
   if (serverConfig.currentCar === 'honda') {
     if (CanData.tps === 65535)
       CanData.tps = 0
 
     // Oil Temperature
+    // if (prevOilTemp !== CanData.oilTemp)
     {
       var A = 0.0014222095, B = 0.00023729017, C = 9.3273998E-8;
       var oilTempResistance = CanData.oilTemp;
@@ -117,9 +120,11 @@ function DataConversion() {
       var kelvinTemp = 1 / (A + B * Math.log(oilTempResistance) + C * Math.pow(Math.log(oilTempResistance), 3));
       var celsiusTemp = kelvinTemp - 273.15;
       CanData.oilTemp = celsiusTemp.toFixed(2);
+      // prevOilTemp = celsiusTemp.toFixed(2);
     }
 
     // Oil Pressure
+    // if (prevOilPressure !== CanData.oilPressure)
     {
       var oilPressureResistance = CanData.oilPressure / 819.2; // Specified by Hondata | convert from 'raw voltage' value
       // Below values are all specified by Bosch for this combination oil temp/pressure sensor
@@ -133,42 +138,15 @@ function DataConversion() {
       // Use this ratio to find the equivalent position within the desired range
       var kPaValue = (ratio * (desiredHigh - desiredLow)) + desiredLow;
       CanData.oilPressure = (kPaValue * 0.145038).toFixed(2); // Convert to psi
+      // prevOilPressure = (kPaValue * 0.145038).toFixed(2); // Convert to psi
     }
-
-
-    // Oil Temperature
-    {
-      var A = 0.0014222095, B = 0.00023729017, C = 9.3273998E-8;
-      var oilTempResistance = CanData.oilTemp;
-
-      var kelvinTemp = 1 / (A + B * Math.log(oilTempResistance) + C * Math.pow(Math.log(oilTempResistance), 3));
-      var celsiusTemp = kelvinTemp - 273.15;
-      CanData.oilTemp = celsiusTemp.toFixed(2);
-    }
-
-    // Oil Pressure
-    {
-      var oilPressureResistance = CanData.oilPressure / 819.2; // Specified by Hondata | convert from 'raw voltage' value
-      // Below values are all specified by Bosch for this combination oil temp/pressure sensor
-      var originalLow = 0; //0.5
-      var originalHigh = 5; //4.5
-      var desiredLow = -100; //0
-      var desiredHigh = 1100; //1000
-
-      // Calculate the ratio of the original value's position within the original range
-      var ratio = (oilPressureResistance - originalLow) / (originalHigh - originalLow);
-      // Use this ratio to find the equivalent position within the desired range
-      var kPaValue = (ratio * (desiredHigh - desiredLow)) + desiredLow;
-      CanData.oilPressure = (kPaValue * 0.145038).toFixed(2); // Convert to psi
-    }
-
   }
 
-  if (serverConfig.currentCar === 'mazda') {
-    CanData.tps = CanData.tps / 2;
-    //console.log('Conversion: ', CanData.tps);
-    //console.log('Conversion: ', CanData.tps);
-  }
+  // if (serverConfig.currentCar === 'mazda') {
+  //   CanData.tps = CanData.tps / 2;
+  //   console.log('Conversion: ', CanData.tps);
+  //   console.log('Conversion: ', CanData.tps);
+  // }
 };
 
 /* -------------------- Data acquisition -------------------- */

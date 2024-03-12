@@ -48,12 +48,12 @@ var oilTemp = 2111;
 var oilPressure = 407;
 
 // Very hacked together test case
-setInterval(() => {
-  if (changeDisplay === 0)
-    changeDisplay = 1;
-  else if (changeDisplay === 1)
-    changeDisplay = 0;
-}, 10000);
+// setInterval(() => {
+//   if (changeDisplay === 0)
+//     changeDisplay = 1;
+//   else if (changeDisplay === 1)
+//     changeDisplay = 0;
+// }, 10000);
 
 setInterval(() => {
   // var msgOut111 = {};
@@ -75,8 +75,8 @@ setInterval(() => {
   tps += 5;
   speed += 10;
   gear += 1;
-  oilTemp += 2;
-  oilPressure += 2;
+  // oilTemp += 2;
+  // oilPressure += 2;
 
   if (rpm > 8400)
     rpm = 0;
