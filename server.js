@@ -123,10 +123,10 @@ function DataConversion() {
     {
       var oilPressureResistance = CanData.oilPressure / 819.2; // Specified by Hondata | convert from 'raw voltage' value
       // Below values are all specified by Bosch for this combination oil temp/pressure sensor
-      var originalLow = 0.5;
-      var originalHigh = 4.5;
-      var desiredLow = 0;
-      var desiredHigh = 1000;
+      var originalLow = 0; //0.5;
+      var originalHigh = 5; //4.5;
+      var desiredLow = -100; //0;
+      var desiredHigh = 1100; //1000;
 
       // Calculate the ratio of the original value's position within the original range
       var ratio = (oilPressureResistance - originalLow) / (originalHigh - originalLow);
