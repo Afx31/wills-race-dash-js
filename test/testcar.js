@@ -44,7 +44,7 @@ var inj = 4;
 var ign = 5;
 var lambdaRatio = 46686;
 var lambda = 22999;
-var oilTemp = 2111;
+var oilTemp = 2041;
 var oilPressure = 407;
 
 // Very hacked together test case

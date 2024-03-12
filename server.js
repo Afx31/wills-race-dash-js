@@ -37,19 +37,19 @@ var tempLoggedData = {
 }
 
 /* -------------------- Express redirect endpoint setup -------------------- */
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'index.html'));
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'index.html'));
+// });
 
-app.get('/DataLoggingDisplay', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'DataLoggingDisplay', 'index.html'));
-});
+// app.get('/DataLoggingDisplay', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'DataLoggingDisplay', 'index.html'));
+// });
 
-app.get('/LapTimingDisplay', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'LapTimingDisplay', 'index.html'));
-});
+// app.get('/LapTimingDisplay', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'LapTimingDisplay', 'index.html'));
+// });
 
-app.use(express.static('client'));
+// app.use(express.static('client'));
 
 /* -------------------- Socket setup -------------------- */
 //#region
@@ -111,6 +111,7 @@ function DataConversion() {
     if (CanData.tps === 65535)
       CanData.tps = 0
 
+    // try the below IF first  
     // Oil Temperature
     // if (prevOilTemp !== CanData.oilTemp)
     {
