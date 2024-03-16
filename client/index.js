@@ -1,17 +1,8 @@
-var socket = io.connect('localhost:3000'); // Linux
-//var socket = new WebSocket('ws://localhost:3000'); // Windows
-// Windows
-//socket.onopen = () => {
-//  console.log('Connected to the server');
-//};
+var socket = io.connect('localhost:3000');
 
-socket.on('CANBusMessage', (data) => { // Linux
-//socket.onmessage = (event) => { // Windows
-  //var data = JSON.parse(event.data); // Windows
-  
-  if (data.changeDisplay === 1) {
-    window.location.href = 'http://localhost:3000/LapTimingDisplay';
-  }
+socket.on('CANBusMessage', (data) => {  
+  // if (data.changeDisplay === 1)
+  //   window.location.href = 'http://localhost:3000/LapTimingDisplay';
 
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
@@ -65,15 +56,4 @@ socket.on('CANBusMessage', (data) => { // Linux
     rpmBar.style.setProperty('background-color', 'yellow', 'important');
   else
     rpmBar.style.setProperty('background-color', 'green', 'important');
-}); // Linux
-//}; // Windows
-
-// Windows
-//socket.onclose = () => {
-//  console.log('Connection closed');
-//};
-
-// Windows
-//socket.onerror = (error) => {
-//  console.error(`WebSocket error: ${error}`);
-//};
+});

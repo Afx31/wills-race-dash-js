@@ -23,10 +23,8 @@ socket.on('DataLogging', (data) => {
 });
 
 socket.on('CANBusMessage', (data) => {
-
-  if (data.changeDisplay === 1) {
-    window.location.href = 'http://localhost:3000/';
-  }
+  // if (data.changeDisplay === 1)
+  //   window.location.href = 'http://localhost:3000/';
 
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
