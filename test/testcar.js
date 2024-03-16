@@ -1,10 +1,10 @@
 var can = require('socketcan');
 var channel = can.createRawChannel('vcan0', true);
 
-var msg111 = {
-  'id': 111,
-  data: [0, 0, 0, 0, 0, 0]
-}
+// var msg111 = {
+//   'id': 111,
+//   data: [0, 0, 0, 0, 0, 0]
+// }
 var msg660 = {
   'id': 660,
   data: [0, 0, 0, 0, 0, 0]
@@ -44,26 +44,26 @@ var inj = 4;
 var ign = 5;
 var lambdaRatio = 46686;
 var lambda = 22999;
-var oilTemp = 90;
-var oilPressure = 90;
+var oilTemp = 2041;
+var oilPressure = 407;
 
 // Very hacked together test case
-setInterval(() => {
-  if (changeDisplay === 0)
-    changeDisplay = 1;
-  else if (changeDisplay === 1)
-    changeDisplay = 0;
-}, 10000);
+// setInterval(() => {
+//   if (changeDisplay === 0)
+//     changeDisplay = 1;
+//   else if (changeDisplay === 1)
+//     changeDisplay = 0;
+// }, 10000);
 
 setInterval(() => {
-  var msgOut111 = {};
+  // var msgOut111 = {};
   var msgOut660 = {};
   var msgOut661 = {};
   var msgOut662 = {};
   var msgOut663 = {};
   var msgOut664 = {};
   var msgOut667 = {};
-  var buff111 = Buffer.alloc(4);
+  // var buff111 = Buffer.alloc(4);
   var buff660 = Buffer.alloc(6);
   var buff661 = Buffer.alloc(4);
   var buff662 = Buffer.alloc(4);
@@ -75,7 +75,8 @@ setInterval(() => {
   tps += 5;
   speed += 10;
   gear += 1;
-  oilPressure += 0.2;
+  // oilTemp += 2;
+  // oilPressure += 2;
 
   if (rpm > 8400)
     rpm = 0;
@@ -88,13 +89,10 @@ setInterval(() => {
 
   if (gear == 7)
     gear = 1;
-
-  if (oilPressure > 100)
-    oilPressure = 90;
  
   // Write to Buffer
-  buff111.writeUIntBE(changeDisplay, 0, 1);
-  console.log('buff111: ', buff111);
+  // buff111.writeUIntBE(changeDisplay, 0, 1);
+  // console.log('buff111: ', buff111);
 
   buff660.writeUIntBE(rpm, 0, 2);
   buff660.writeUIntBE(speed, 2, 2);
@@ -123,8 +121,8 @@ setInterval(() => {
   console.log('buff667: ', buff667);
 
   // Assign Buffer to Msg
-  msgOut111.id = msg111.id;
-  msgOut111.data = buff111;
+  // msgOut111.id = msg111.id;
+  // msgOut111.data = buff111;
 
   msgOut660.id = msg660.id;
   msgOut660.data = buff660;
@@ -145,7 +143,7 @@ setInterval(() => {
   msgOut667.data = buff667;
 
   // Send Msg on channel to server
-  channel.send(msgOut111);
+  // channel.send(msgOut111);
   channel.send(msgOut660);
   channel.send(msgOut661);
   channel.send(msgOut662);
