@@ -12,7 +12,7 @@ const { TrackStartFinishLines, GPSData, LapTiming } = require('./config/lapTimin
 
 // Config
 const serverConfig = {
-  canChannel: 'vcan0',
+  canChannel: 'can0',
   currentCar: 'honda',
   currentTrack: 'home',
   lapTiming: false,
@@ -94,13 +94,13 @@ if (serverConfig.lapTiming) {
       - Don't do the GPS location check until we've gone past that quickest lap. i.e. 58 seconds @ Wakefield
   */
 
-  // setInterval(() => {
-  //   if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
-  //     LapTiming.finishLap();
-  //     LapTiming.startLap();
-  //     // Would we need to do LapTiming.updateCurrentLap() again instead of L31 ?
-  //   }
-  // }, 100);
+  setInterval(() => {
+    if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+      LapTiming.finishLap();
+      LapTiming.startLap();
+      // Would we need to do LapTiming.updateCurrentLap() again instead of L31 ?
+    }
+  }, 100);
 }
 
 /* -------------------- Data conversion -------------------- */
@@ -145,8 +145,6 @@ function DataConversion() {
 
   // if (serverConfig.currentCar === 'mazda') {
   //   CanData.tps = CanData.tps / 2;
-  //   console.log('Conversion: ', CanData.tps);
-  //   console.log('Conversion: ', CanData.tps);
   // }
 };
 
