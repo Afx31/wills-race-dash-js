@@ -24,7 +24,11 @@ body {
   background-color: #4CAF50!important;
   height: 130px; /* 160px pre thousands numbers */
   width: 0;
+  /* transition: width 0.3s ease-out, background-color 0.3s ease-out; */
 }
+.rpm-bar.red { background-color: red; }
+.rpm-bar.yellow { background-color: yellow; }
+.rpm-bar.green { background-color: green; }
 
 .top-panel-thousands-marks {
   display: grid;
@@ -120,6 +124,7 @@ body {
   color:#fff!important;
   background-color:#4CAF50!important;
   height: 0%;
+  max-height: 400px !important;
   width: 100%;
   position: absolute;
   bottom: 0;
