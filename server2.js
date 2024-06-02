@@ -54,7 +54,7 @@ channel.addListener('onMessage', function(msg) {
 			break;
 		case 664:
 		case 1636:
-			CanData.lambdaRatio = (32768 / msg.data.readUIntBE(0, 2)).toFixed(1);
+			CanData.lambdaRatio = (32768 / msg.data.readUIntBE(0, 2)).toFixed(2);
 			// CanData.lambda = msg.data.readUIntBE(2, 2);
 			break;
 		case 667:
@@ -67,11 +67,11 @@ channel.addListener('onMessage', function(msg) {
       // Oil Temp
 			var oilTempResistance = msg.data.readUIntBE(0, 2);
       var kelvinTemp = 1 / (A + B * Math.log(oilTempResistance) + C * Math.pow(Math.log(oilTempResistance), 3));
-      CanData.oilTemp = (kelvinTemp - 273.15).toFixed(1);
+      CanData.oilTemp = (kelvinTemp - 273.15).toFixed(2);
 
       // Oil Pressure
       var ratio = (CanData.oilPressure = msg.data.readUIntBE(2, 2)  - originalLow) / (originalHigh - originalLow);
-      CanData.oilPressure = (((ratio * (desiredHigh - desiredLow)) + desiredLow) * 0.145038).toFixed(1);
+      CanData.oilPressure = (((ratio * (desiredHigh - desiredLow)) + desiredLow) * 0.145038).toFixed(2);
 			break;
 	}
 
