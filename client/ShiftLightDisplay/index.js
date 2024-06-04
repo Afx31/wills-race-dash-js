@@ -20,6 +20,36 @@ socket.on('CANBusMessage', (data) => {
   var oilTemp = document.getElementById('oilTemp');
   var oilPressure = document.getElementById('oilPressure');
 
+  var shiftLight1 = document.getElementById('shift-light-1');
+  var shiftLight2 = document.getElementById('shift-light-2');
+  var shiftLight3 = document.getElementById('shift-light-3');
+  var shiftLight4 = document.getElementById('shift-light-4');
+  var shiftLight5 = document.getElementById('shift-light-5');
+  var shiftLight6 = document.getElementById('shift-light-6');
+  var shiftLight7 = document.getElementById('shift-light-7');
+  
+  if (data.rpm < 4500) { shiftLight1.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 4500) { shiftLight1.style.setProperty('background-color', 'blue', 'important'); }
+  
+  if (data.rpm < 5000) { shiftLight2.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 5000) { shiftLight2.style.setProperty('background-color', 'blue', 'important'); }
+
+  if (data.rpm < 5500) { shiftLight3.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 5500) { shiftLight3.style.setProperty('background-color', 'green', 'important'); }
+
+  if (data.rpm < 6000) { shiftLight4.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 6000) { shiftLight4.style.setProperty('background-color', 'green', 'important'); }
+
+  if (data.rpm < 6500) { shiftLight5.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 6500) { shiftLight5.style.setProperty('background-color', 'yellow', 'important'); }
+
+  if (data.rpm < 7000) { shiftLight6.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 7000) { shiftLight6.style.setProperty('background-color', 'yellow', 'important'); }
+
+  if (data.rpm < 7500) { shiftLight7.style.setProperty('background-color', '', 'important'); }
+  if (data.rpm >= 7500) { shiftLight7.style.setProperty('background-color', 'red', 'important'); }
+
+
   // Assign data to UI controls
   rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
 
