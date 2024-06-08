@@ -1,9 +1,14 @@
 var socket = io.connect('localhost:3000');
+const shiftLightRange1 = 1000;
+const shiftLightRange2 = 1100;
+const shiftLightRange3 = 1200;
+const shiftLightRange4 = 1300;
+const shiftLightRange5 = 1400;
+const shiftLightRange6 = 1500;
+const shiftLightRange7 = 1600;
 
-socket.on('CANBusMessage', (data) => {  
-  // if (data.changeDisplay === 1)
-  //   window.location.href = 'http://localhost:3000/LapTimingDisplay';
-
+socket.on('CANBusMessage', (data) => {
+  // var slider = document.getElementById('myRange');
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
@@ -12,11 +17,9 @@ socket.on('CANBusMessage', (data) => {
   var iat = document.getElementById('iat');
   var ect = document.getElementById('ect');
   var tpsBar = document.getElementById('tpsbar');
-  var tps = document.getElementById('tps');
-  var map = document.getElementById('map');
+  // var tps = document.getElementById('tps');
+  // var map = document.getElementById('map');
   var lambdaRatio = document.getElementById('lambdaRatio');
-  // var inj = document.getElementById('inj');
-  // var ign = document.getElementById('ign');
   var oilTemp = document.getElementById('oilTemp');
   var oilPressure = document.getElementById('oilPressure');
 
@@ -28,58 +31,39 @@ socket.on('CANBusMessage', (data) => {
   var shiftLight6 = document.getElementById('shift-light-6');
   var shiftLight7 = document.getElementById('shift-light-7');
   
-  if (data.rpm < 4500) { shiftLight1.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 4500) { shiftLight1.style.setProperty('background-color', 'blue', 'important'); }
+  if (data.rpm < shiftLightRange1) { shiftLight1.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange1) { shiftLight1.style.setProperty('background-color', 'blue'); }
   
-  if (data.rpm < 5000) { shiftLight2.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 5000) { shiftLight2.style.setProperty('background-color', 'blue', 'important'); }
+  if (data.rpm < shiftLightRange2) { shiftLight2.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange2) { shiftLight2.style.setProperty('background-color', 'blue'); }
 
-  if (data.rpm < 5500) { shiftLight3.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 5500) { shiftLight3.style.setProperty('background-color', 'green', 'important'); }
+  if (data.rpm < shiftLightRange3) {shiftLight3.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange3) { shiftLight3.style.setProperty('background-color', 'green'); }
 
-  if (data.rpm < 6000) { shiftLight4.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 6000) { shiftLight4.style.setProperty('background-color', 'green', 'important'); }
+  if (data.rpm < shiftLightRange4) { shiftLight4.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange4) { shiftLight4.style.setProperty('background-color', 'green'); }
 
-  if (data.rpm < 6500) { shiftLight5.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 6500) { shiftLight5.style.setProperty('background-color', 'yellow', 'important'); }
+  if (data.rpm < shiftLightRange5) { shiftLight5.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange5) { shiftLight5.style.setProperty('background-color', 'yellow'); }
 
-  if (data.rpm < 7000) { shiftLight6.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 7000) { shiftLight6.style.setProperty('background-color', 'yellow', 'important'); }
+  if (data.rpm < shiftLightRange6) { shiftLight6.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange6) { shiftLight6.style.setProperty('background-color', 'yellow'); }
 
-  if (data.rpm < 7500) { shiftLight7.style.setProperty('background-color', '', 'important'); }
-  if (data.rpm >= 7500) { shiftLight7.style.setProperty('background-color', 'red', 'important'); }
-
+  if (data.rpm < shiftLightRange7) { shiftLight7.style.setProperty('background-color', ''); }
+  if (data.rpm >= shiftLightRange7) { shiftLight7.style.setProperty('background-color', 'red'); }
 
   // Assign data to UI controls
   rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
-
-  // if (tpsBar.style.height !== data.tps + '%')
-    tpsBar.style.height = data.tps + '%';
-
-  // if (rpmNum.textContent !== data.rpm)
-    rpmNum.textContent = data.rpm;
-  
-  // if (speed.textContent !== data.speed)
-    speed.textContent = data.speed;
-  
+  tpsBar.style.height = data.tps + '%';
+  rpmNum.textContent = data.rpm;
+  speed.textContent = data.speed;
   gear.textContent = data.gear;
-  voltage.textContent = data.voltage;  
+  voltage.textContent = data.voltage;
   iat.textContent = data.iat;
   ect.textContent = data.ect;
-  tps.textContent = data.tps;
-  map.textContent = data.map;
-  lambdaRatio.textContent = data.lambdaRatio;  
-  // inj.textContent = data.inj;
-  // ign.textContent = data.ign;
+  // tps.textContent = data.tps;
+  // map.textContent = data.map;
+  lambdaRatio.textContent = data.lambdaRatio;
   oilTemp.textContent = data.oilTemp;
   oilPressure.textContent = data.oilPressure;
-
-  // RPM Bar colouring
-  // var percentInt = parseInt(rpmBar.style.width);
-  // if (percentInt > 85)
-  //   rpmBar.style.setProperty('background-color', 'red', 'important');
-  // else if (percentInt > 60)
-  //   rpmBar.style.setProperty('background-color', 'yellow', 'important');
-  // else
-  //   rpmBar.style.setProperty('background-color', 'green', 'important');
 });
