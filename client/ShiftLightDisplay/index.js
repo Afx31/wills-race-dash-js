@@ -8,7 +8,6 @@ const shiftLightRange6 = 1500;
 const shiftLightRange7 = 1600;
 
 socket.on('CANBusMessage', (data) => {
-  // var slider = document.getElementById('myRange');
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
