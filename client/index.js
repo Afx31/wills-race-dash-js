@@ -19,7 +19,7 @@ socket.on('CANBusMessage', (data) => {
   // var ign = document.getElementById('ign');
   var oilTemp = document.getElementById('oilTemp');
   var oilPressure = document.getElementById('oilPressure');
-
+  
   // Assign data to UI controls
   rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
 
@@ -38,18 +38,9 @@ socket.on('CANBusMessage', (data) => {
   ect.textContent = data.ect;
   tps.textContent = data.tps;
   map.textContent = data.map;
-  lambdaRatio.textContent = data.lambdaRatio;  
+  lambdaRatio.textContent = data.lambdaRatio;
   // inj.textContent = data.inj;
   // ign.textContent = data.ign;
   oilTemp.textContent = data.oilTemp;
   oilPressure.textContent = data.oilPressure;
-
-  // RPM Bar colouring
-  // var percentInt = parseInt(rpmBar.style.width);
-  // if (percentInt > 85)
-  //   rpmBar.style.setProperty('background-color', 'red', 'important');
-  // else if (percentInt > 60)
-  //   rpmBar.style.setProperty('background-color', 'yellow', 'important');
-  // else
-  //   rpmBar.style.setProperty('background-color', 'green', 'important');
 });
