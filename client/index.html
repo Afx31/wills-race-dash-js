@@ -7,6 +7,7 @@
   <script src="/socket.io/socket.io.js"></script>
 </head>
   <body>
+    <script src="/index.js"></script>
     <div class="container">
       <div class="top-panel">
         <div id="rpmbar" class="rpm-bar"></div>
@@ -88,9 +89,14 @@
               <p id="gear" class="data-reading-gear">-</p>
             </div>
             <div class="info-panel-middle-bottom-right">
-              <div class="data-title">TPS:</div>
-              <div class="tpsBarContainer">
-                <div id="tpsbar" class="tps-bar"></div>
+              <div class="data-title">Brake | TPS</div>
+              <div class="bar-section-container">
+                <div class="brake-bar-container">
+                  <div id="brakebar" class="brake-bar"></div>
+                </div>
+                <div class="tps-bar-container">
+                  <div id="tpsbar" class="tps-bar"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -117,9 +123,8 @@
           <p class="data-title">Voltage:</p>
           <hr />
           <p id="voltage" class="data-reading">-</p>
-          </div>
+        </div>
       </div>
     </div>
-    <script src="/index.js"></script>
   </body>
 </html>
