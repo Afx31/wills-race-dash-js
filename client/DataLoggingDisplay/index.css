@@ -20,7 +20,7 @@ body {
 .rpm-bar {
   color: #fff!important;
   background-color: #4CAF50!important;
-  height: 130px; /* 160px pre thousands numbers */
+  height: 100px; /* 160px pre thousands numbers */
   width: 0;
 }
 
@@ -35,7 +35,7 @@ body {
 .grid-item {
   border-right: .1px solid white;
   box-sizing: border-box;
-  height: 140px; /* 170px pre thousands numbers */
+  height: 120px; /* 170px pre thousands numbers */
   width: 100%;
   position: relative;
 }
