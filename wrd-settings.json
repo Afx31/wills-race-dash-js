@@ -1,7 +1,0 @@
-{
-  "canChannel": "vcan0",
-  "car": "honda",
-  "track": "home",
-  "lapTiming": false,
-  "dataLogging": false
-}

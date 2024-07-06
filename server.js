@@ -21,6 +21,17 @@ socketio.on('connection', function(client) {
 	console.log('Client connected');
 });
 
+app.get('/config', (req, res) => {
+  res.json({
+    shiftLight1: wrdSettings.rpm.shiftLight1,
+    shiftLight2: wrdSettings.rpm.shiftLight2,
+    shiftLight3: wrdSettings.rpm.shiftLight3,
+    shiftLight4: wrdSettings.rpm.shiftLight4,
+    shiftLight5: wrdSettings.rpm.shiftLight5,
+    shiftLight6: wrdSettings.rpm.shiftLight6,
+    shiftLight7: wrdSettings.rpm.shiftLight7
+  });
+});
 
 /* -------------------- Reading data -------------------- */
 // Oil Temp
