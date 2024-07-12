@@ -28,14 +28,14 @@ body {
   border-bottom: 0.5px solid yellow;
   position: relative;
   margin-bottom: 3rem;
-  width: 60%;
+  /* width: 60%;
   margin-left: 20%;
-  margin-right: 20%;
+  margin-right: 20%; */
 }
 .rpm-bar {
   color: #fff!important;
   background-color: #4CAF50!important;
-  height: 100px; /* 160px pre thousands numbers, then 130px beofre half size */
+  height: 130px; /* 160px pre thousands numbers, then 130px beofre half size */
   width: 0%;
   /* transition: width 0.3s ease-out, background-color 0.3s ease-out; */
 }
@@ -44,11 +44,11 @@ body {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   position: absolute;
-  min-width: 1142px; /* 1905px, then 952px for 25% */
-  width: 1142px; /* 1905px */
+  min-width: 1905px; /* 1905px, then 952px for 25% */
+  width: 1905px; /* 1905px */
   padding-top: 150px;
-  margin-left: 20%;
-  margin-right: 20%;
+  /* margin-left: 20%;
+  margin-right: 20%; */
 }
 .rpm-bar-grid-item {
   border-right: .1px solid yellow;
