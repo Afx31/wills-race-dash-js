@@ -74,12 +74,12 @@ channel.addListener('onMessage', function(msg) {
         // Oil Temp
         var oilTempResistance = msg.data.readUIntBE(0, 2);
         var kelvinTemp = 1 / (A + B * Math.log(oilTempResistance) + C * Math.pow(Math.log(oilTempResistance), 3));
-        CanData.oilTemp = (kelvinTemp - 273.15).toFixed(1);
+        CanData.oilTemp = (kelvinTemp - 273.15).toFixed(0);
 
         // Oil Pressure
         var oilPressureResistance = msg.data.readUIntBE(2, 2) / 819.2
         var kPaValue = ((oilPressureResistance - originalLow) / (originalHigh - originalLow) * (desiredHigh - desiredLow)) + desiredLow;
-        CanData.oilPressure = (kPaValue * 0.145038).toFixed(1); // Convert to psi
+        CanData.oilPressure = (kPaValue * 0.145038).toFixed(0); // Convert to psi
         break;
     }
 
