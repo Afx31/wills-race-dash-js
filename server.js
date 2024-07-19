@@ -12,7 +12,6 @@ const wrdSettingsRawData = fs.readFileSync('../wrd-settings.json');
 const wrdSettings = JSON.parse(wrdSettingsRawData);
 
 /* -------------------- Socket setup -------------------- */
-//var channel = can.createRawChannel(serverConfig.canChannel, true);
 var channel = can.createRawChannel(wrdSettings.canChannel, true);
 
 app.use(express.static(__dirname + '/client'));
@@ -33,7 +32,72 @@ app.get('/config', (req, res) => {
   });
 });
 
-/* -------------------- Reading data -------------------- */
+/* -------------------- Warning values -------------------- */
+const WarningValues = {
+  warningCoolantTemp: false,
+  criticalCoolantTemp: false,
+  warningOilTemp: false,
+  criticalOilTemp: false,
+  warningOilPressure: false,
+  criticalOilPressure: false
+}
+
+setInterval(() => {
+  var tempBool = false;
+
+  if (CanData.ect >= wrdSettings.warningValues.criticalCoolantTemp) {
+    WarningValues.criticalCoolantTemp = true
+    tempBool = true
+  }
+  else if (CanData.ect >= wrdSettings.warningValues.warningCoolantTemp) {
+    WarningValues.criticalCoolantTemp = false
+    WarningValues.warningCoolantTemp = true
+    tempBool = true
+  }
+  else {
+    WarningValues.criticalCoolantTemp = false
+    WarningValues.warningCoolantTemp = false
+    tempBool = true
+  }
+
+  if (CanData.oilTemp >= wrdSettings.warningValues.criticalOilTemp) {
+    WarningValues.criticalOilTemp = true
+    tempBool = true
+  }
+  else if (CanData.oilTemp >= wrdSettings.warningValues.warningOilTemp) {
+    WarningValues.criticalOilTemp = false
+    WarningValues.warningOilTemp = true
+    tempBool = true
+  }
+  else {
+    WarningValues.criticalOilTemp = false
+    WarningValues.warningOilTemp = false
+    tempBool = true
+  }
+
+  if (CanData.oilPressure >= wrdSettings.warningValues.criticalOilPressure) {
+    WarningValues.criticalOilPressure = true
+    tempBool = true
+  }
+  else if (CanData.oilPressure >= wrdSettings.warningValues.warningOilPressure) {
+    WarningValues.criticalOilPressure = false
+    WarningValues.warningOilPressure = true
+    tempBool = true
+  }
+  else {
+    WarningValues.criticalOilPressure = false
+    WarningValues.warningOilPressure = false
+    tempBool = true
+  }
+
+  if (tempBool) {
+    socketio.emit('WarningValues', WarningValues)
+    tempBool = false
+  }
+}, 1000);
+
+
+/* -------------------- Reading CAN Bus data -------------------- */
 // Oil Temp
 const A = 0.0014222095;
 const B = 0.00023729017;

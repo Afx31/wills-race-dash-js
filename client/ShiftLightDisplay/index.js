@@ -7,6 +7,12 @@ let shiftLightRange4 = 0;
 let shiftLightRange5 = 0;
 let shiftLightRange6 = 0;
 let shiftLightRange7 = 0;
+let warningCoolantTemp = 0;
+let criticalCoolantTemp = 0;
+let warningOilTemp = 0;
+let criticalOilTemp = 0;
+let warningOilPressure = 0;
+let criticalOilPressure = 0;
 // let currentRpm = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,11 +25,38 @@ document.addEventListener('DOMContentLoaded', () => {
       shiftLightRange4 = data.shiftLight4,
       shiftLightRange5 = data.shiftLight5,
       shiftLightRange6 = data.shiftLight6,
-      shiftLightRange7 = data.shiftLight7
+      shiftLightRange7 = data.shiftLight7,
+      warningCoolantTemp = data.warningCoolantTemp,
+      criticalCoolantTemp = data.criticalCoolantTemp,
+      warningOilTemp = data.warningOilTemp,
+      criticalOilTemp = data.criticalOilTemp,
+      warningOilPressure = data.warningOilPressure,
+      criticalOilPressure = data.criticalOilPressure
     })
     .catch(error => {
         console.error('Error fetching the config:', error);
     });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  var ect = document.getElementById('ect');
+  var oilTemp = document.getElementById('oilTemp');
+  var oilPressure = document.getElementById('oilPressure');
+
+  socket.on('WarningValues', (data) => {
+    // Warning lights
+    if (data.criticalCoolantTemp) { ect.style.setProperty('background-color', 'red') }
+    else if (data.warningCoolantTemp) { ect.style.setProperty('background-color', 'goldenrod')}
+    else { ect.style.setProperty('background-color', '') }
+
+    if (data.criticalOilTemp) { oilTemp.style.setProperty('background-color', 'red') }
+    else if (data.warningOilTemp) { oilTemp.style.setProperty('background-color', 'goldenrod') }
+    else { oilTemp.style.setProperty('background-color', '') }
+
+    if (data.criticalOilPressure) { oilPressure.style.setProperty('background-color', 'red') }
+    else if (data.warningOilPressure) { oilPressure.style.setProperty('background-color', 'goldenrod') }
+    else { oilPressure.style.setProperty('background-color', '') }
+  });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,26 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // }
 
   socket.on('CANBusMessage', (data) => {
-    if (data.rpm < shiftLightRange1) { shiftLight1.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange1) { shiftLight1.style.setProperty('background-color', 'blue'); }
+    if (data.rpm < shiftLightRange1) { shiftLight1.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange1) { shiftLight1.style.setProperty('background-color', 'blue') }
     
-    if (data.rpm < shiftLightRange2) { shiftLight2.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange2) { shiftLight2.style.setProperty('background-color', 'blue'); }
+    if (data.rpm < shiftLightRange2) { shiftLight2.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange2) { shiftLight2.style.setProperty('background-color', 'blue') }
 
-    if (data.rpm < shiftLightRange3) {shiftLight3.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange3) { shiftLight3.style.setProperty('background-color', 'green'); }
+    if (data.rpm < shiftLightRange3) {shiftLight3.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange3) { shiftLight3.style.setProperty('background-color', 'green') }
 
-    if (data.rpm < shiftLightRange4) { shiftLight4.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange4) { shiftLight4.style.setProperty('background-color', 'green'); }
+    if (data.rpm < shiftLightRange4) { shiftLight4.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange4) { shiftLight4.style.setProperty('background-color', 'green') }
 
-    if (data.rpm < shiftLightRange5) { shiftLight5.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange5) { shiftLight5.style.setProperty('background-color', 'yellow'); }
+    if (data.rpm < shiftLightRange5) { shiftLight5.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange5) { shiftLight5.style.setProperty('background-color', 'yellow') }
 
-    if (data.rpm < shiftLightRange6) { shiftLight6.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange6) { shiftLight6.style.setProperty('background-color', 'yellow'); }
+    if (data.rpm < shiftLightRange6) { shiftLight6.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange6) { shiftLight6.style.setProperty('background-color', 'yellow') }
 
-    if (data.rpm < shiftLightRange7) { shiftLight7.style.setProperty('background-color', ''); }
-    if (data.rpm >= shiftLightRange7) { shiftLight7.style.setProperty('background-color', 'red'); }
+    if (data.rpm < shiftLightRange7) { shiftLight7.style.setProperty('background-color', '') }
+    if (data.rpm >= shiftLightRange7) { shiftLight7.style.setProperty('background-color', 'red') }
 
     // Assign data to UI controls
     rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
