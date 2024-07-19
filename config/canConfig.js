@@ -1,6 +1,5 @@
 const CanData = {
   changeDisplay: 0,
-  rpm: 0,
   speed: 0,
   gear: 0,
   voltage: 0,

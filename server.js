@@ -43,13 +43,17 @@ var originalLow = 0; //0.5;
 var originalHigh = 5; //4.5;
 var desiredLow = -100; //0;
 var desiredHigh = 1100; //1000;
+
+// test
+let testrpm = 0;
+
 channel.addListener('onMessage', function(msg) {
 	// Honda
   if (wrdSettings.car === 'honda') {
     switch(msg.id) {
       case 660:
       case 1632:
-        CanData.rpm = msg.data.readUIntBE(0, 2);
+        testrpm = msg.data.readUIntBE(0, 2);
         CanData.speed = msg.data.readUIntBE(2, 2);
         CanData.gear = msg.data.readUIntBE(4, 1);
         CanData.voltage = (msg.data.readUIntBE(5, 1) / 10).toFixed(1);
@@ -99,6 +103,7 @@ channel.addListener('onMessage', function(msg) {
     }
   } 
 
+  socketio.emit('RpmMessage', testrpm);
 	socketio.emit('CANBusMessage', CanData);
 });
 
