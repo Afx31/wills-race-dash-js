@@ -7,7 +7,7 @@ let shiftLightRange4 = 0;
 let shiftLightRange5 = 0;
 let shiftLightRange6 = 0;
 let shiftLightRange7 = 0;
-// let currentRpm = 0;
+let currentRpm = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
   fetch('/config')
@@ -49,10 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
   var shiftLight6 = document.getElementById('shift-light-6');
   var shiftLight7 = document.getElementById('shift-light-7');
 
-  // function animateRpmBar() {
-  //   rpmBar.style.width = ((currentRpm / 9000) * 100) + '%';
-  //   requestAnimationFrame(animateRpmBar);
-  // }
+  function animateRpmBar() {
+    rpmBar.style.width = ((currentRpm / 9000) * 100) + '%';
+    requestAnimationFrame(animateRpmBar);
+  }
 
   socket.on('CANBusMessage', (data) => {
     if (data.rpm < shiftLightRange1) { shiftLight1.style.setProperty('background-color', ''); }
@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.rpm >= shiftLightRange7) { shiftLight7.style.setProperty('background-color', 'red'); }
 
     // Assign data to UI controls
-    rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
-    // currentRpm = data.rpm;
+    //rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
+    currentRpm = data.rpm;
 
     tpsBar.style.height = data.tps + '%';
     rpmNum.textContent = data.rpm;
@@ -94,5 +94,5 @@ document.addEventListener('DOMContentLoaded', () => {
     oilPressure.textContent = data.oilPressure;
   });
 
-  // requestAnimationFrame(animateRpmBar);
+  requestAnimationFrame(animateRpmBar);
 });
