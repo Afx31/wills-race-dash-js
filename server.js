@@ -96,7 +96,7 @@ channel.addListener('onMessage', function(msg) {
       case 513:
         var rpm1 = msg.data.readUIntBE(0, 1);
         var rpm2 = msg.data.readUIntBE(1, 1);
-        CanData.rpm = Math.trunc(((256 * rpm1) + rpm2) / 4);
+        testrpm = Math.trunc(((256 * rpm1) + rpm2) / 4);
         //CanData.rpm = msg.data.readUIntBE(0, 2);
         CanData.tps = Math.trunc(msg.data.readUIntBE(6, 1) / 2);
         break;
