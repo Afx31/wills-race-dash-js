@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  var rpmBar = document.getElementById('rpmbar');
+  //var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');
   var gear = document.getElementById('gear');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.rpm >= shiftLightRange7) { shiftLight7.style.setProperty('background-color', 'red'); }
 
     // Assign data to UI controls
-    rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
+    // rpmBar.style.width = ((data.rpm / 9000) * 100) + '%';
     // currentRpm = data.rpm;
 
     tpsBar.style.height = data.tps + '%';
