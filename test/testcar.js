@@ -1,5 +1,5 @@
 var can = require('socketcan');
-var channel = can.createRawChannel('vcan0', true);
+var channel = can.createRawChannel('can0', true);
 
 // var msg111 = {
 //   'id': 111,

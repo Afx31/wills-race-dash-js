@@ -5,6 +5,7 @@ var app = express();
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
 const { CanData } = require('./config/canConfig');
+const { exec } = require('child_process');
 
 // Settings
 const fs = require('fs');
@@ -31,6 +32,37 @@ app.get('/config', (req, res) => {
     shiftLight6: wrdSettings.rpm.shiftLight6,
     shiftLight7: wrdSettings.rpm.shiftLight7
   });
+});
+
+/* -------------------- Fire data logging Go project -------------------- */
+// This is to be tested a lot more, just temp to get things sorted
+var currentPressBool = false;
+var child;
+channel.addListener('onMessage', function(msg) {
+  if (msg.id == 105) {
+    currentPressBool = !currentPressBool;
+
+    // For front end alert label
+    socketio.emit('CANBusMessageDataLogging', currentPressBool);
+
+    if (currentPressBool) {
+      child = exec(wrdSettings.dataloggingProjectPath, { cwd: wrdSettings.dataloggingSaveToPath }, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error executing file: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+      });
+    }
+    else if (!currentPressBool) {
+      child.kill('SIGTERM'); // Sends the SIGTERM signal to terminate the process
+      console.log('Process killed');
+    }
+  }
 });
 
 /* -------------------- Reading data -------------------- */

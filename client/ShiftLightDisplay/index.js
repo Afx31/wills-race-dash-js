@@ -27,6 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  socket.on('CANBusMessageDataLogging', (data) => {
+    var dataLoggingAlert = document.getElementById('datalogging-alert');
+    
+    if (data)
+      dataLoggingAlert.style.setProperty('background-color', 'red');
+    else
+      dataLoggingAlert.style.setProperty('background-color', '');
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
   var rpmBar = document.getElementById('rpmbar');
   var rpmNum = document.getElementById('rpmNum');
   var speed = document.getElementById('speed');

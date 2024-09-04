@@ -20,7 +20,7 @@ body {
   height: 100px;
   width: 100px;
   border-radius: 10px;
-  border: 1px solid yellow;  
+  border: 1px solid yellow;
 }
 /* ---------------------------------------------------------------- */
 .rpm-bar-panel {
@@ -78,9 +78,9 @@ body {
 }
 
 .left-panel {
-  padding: 10px 20px 0px 10px;
-  /* padding: 0px 20px 0px 10px;
-  margin-top: -100px; */
+  /* padding: 10px 20px 0px 10px; */
+  padding: 0px 20px 0px 10px;
+  margin-top: -100px;
   text-align: left;
 }
 .right-panel {
@@ -102,6 +102,21 @@ body {
 .test-grid-template {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+/* ---------------------------------------------------------------- */
+.info-panel-datalogging {
+  border: 1px solid yellow;
+  padding: 0px 0px 40px 0px;
+  margin: -20px 280px 20px 0px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.data-title-datalogging {
+  font-size: 40px;
+  margin: 0px;
 }
 /* ---------------------------------------------------------------- */
 .info-panel-left {
@@ -164,6 +179,10 @@ body {
 .data-title {
   font-size: 40px;
   margin: 0;
+}
+.data-title-brake-tps {
+  font-size: 40px;
+  margin: 0px 28px 0px 0px;
 }
 .data-reading {
   font-size: 130px;
