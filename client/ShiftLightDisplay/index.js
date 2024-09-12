@@ -26,6 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+var tempBool = false;
+document.addEventListener('DOMContentLoaded', () => {
+  var btnDatalogging = document.getElementById("btn-datalogging");
+
+  btnDatalogging.addEventListener('click', () => {
+    socket.emit('TriggerDatalLogging', tempBool)
+
+    tempBool = !tempBool;
+    if (tempBool)
+      btnDatalogging.style.setProperty('background-color', 'red');
+    else
+      btnDatalogging.style.setProperty('background-color', '');
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   socket.on('CANBusMessageDataLogging', (data) => {
     var dataLoggingAlert = document.getElementById('datalogging-alert');

@@ -38,32 +38,59 @@ app.get('/config', (req, res) => {
 // This is to be tested a lot more, just temp to get things sorted
 var currentPressBool = false;
 var child;
-channel.addListener('onMessage', function(msg) {
-  if (msg.id == 105) {
-    currentPressBool = !currentPressBool;
 
-    // For front end alert label
-    socketio.emit('CANBusMessageDataLogging', currentPressBool);
+socketio.on('TriggerDatalogging', (data) => {
+  console.log('Backend: trigger datalogging')
 
-    if (currentPressBool) {
-      child = exec(wrdSettings.dataloggingProjectPath, { cwd: wrdSettings.dataloggingSaveToPath }, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing file: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-      });
-    }
-    else if (!currentPressBool) {
-      child.kill('SIGTERM'); // Sends the SIGTERM signal to terminate the process
-      console.log('Process killed');
-    }
+  currentPressBool = !currentPressBool;
+
+  // For front end alert label
+  socketio.emit('CANBusMessageDataLogging', currentPressBool);
+
+  if (currentPressBool) {
+    child = exec(wrdSettings.dataloggingProjectPath, { cwd: wrdSettings.dataloggingSaveToPath }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing file: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    });
+  }
+  else if (!currentPressBool) {
+    child.kill('SIGTERM'); // Sends the SIGTERM signal to terminate the process
+    console.log('Process killed');
   }
 });
+// channel.addListener('onMessage', function(msg) {
+//   if (msg.id == 105) {
+//     currentPressBool = !currentPressBool;
+
+//     // For front end alert label
+//     socketio.emit('CANBusMessageDataLogging', currentPressBool);
+
+//     if (currentPressBool) {
+//       child = exec(wrdSettings.dataloggingProjectPath, { cwd: wrdSettings.dataloggingSaveToPath }, (error, stdout, stderr) => {
+//         if (error) {
+//           console.error(`Error executing file: ${error.message}`);
+//           return;
+//         }
+//         if (stderr) {
+//           console.error(`stderr: ${stderr}`);
+//           return;
+//         }
+//         console.log(`stdout: ${stdout}`);
+//       });
+//     }
+//     else if (!currentPressBool) {
+//       child.kill('SIGTERM'); // Sends the SIGTERM signal to terminate the process
+//       console.log('Process killed');
+//     }
+//   }
+// });
 
 /* -------------------- Reading data -------------------- */
 // Oil Temp
