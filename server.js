@@ -6,6 +6,8 @@ var server = require('http').createServer(app);
 var socketio = require('socket.io')(server);
 const { CanData } = require('./config/canConfig');
 const { exec } = require('child_process');
+// const { TrackStartFinishLines, GPSData, LapTiming } = require('./config/lapTimingConfig');
+// const { GetGPSLocation } = require('./gps/gps');
 
 // Settings
 const fs = require('fs');
@@ -133,6 +135,38 @@ channel.addListener('onMessage', function(msg) {
 
 	socketio.emit('CANBusMessage', CanData);
 });
+
+/* -------------------- Lap Timing -------------------- */
+// if (wrdSettings.lapTiming) {
+//   setInterval(() => {
+//     LapTiming.updateCurrentLap();
+//     socketio.emit('LapTiming', LapTiming.currentLap);
+//   }, 100);
+
+//   setInterval(() => {
+//     socketio.emit('LapStats', LapTiming.lastLap, LapTiming.bestLap, LapTiming.pbLap);
+//   }, 10000);
+// }
+// //#endregion
+
+// if (wrdSettings.lapTiming) {
+//   GetGPSLocation();
+//   LapTiming.startLap();
+
+//   /*
+//     - Very rough idea on how the comparison would work. Would need to put it into it's own class with a bunch of logic around the matching
+//     - I think we could have a field for each track where we know the 'quickest' possible lap time.
+//       - Don't do the GPS location check until we've gone past that quickest lap. i.e. 58 seconds @ Wakefield
+//   */
+
+//   // setInterval(() => {
+//   //   if (GPSData.lat === TrackStartFinishLines.home.lat && GPSData.lon === TrackStartFinishLines.home.lon) {
+//   //     LapTiming.finishLap();
+//   //     LapTiming.startLap();
+//   //     // Would we need to do LapTiming.updateCurrentLap() again instead of L31 ?
+//   //   }
+//   // }, 100);
+// }
 
 channel.start();
 server.listen(3000);

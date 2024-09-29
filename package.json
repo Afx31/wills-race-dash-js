@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Afx31/wills-race-dash#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "node-gpsd": "^0.3.4",
     "node-gpsd-client": "^1.4.1",
     "socket.io": "^4.5.4",
     "socketcan": "^4.0.1"
